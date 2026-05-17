@@ -1,1142 +1,1568 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Finverze   Financial Discipline for the Next Generation</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Neue+Haas+Grotesk+Display+Pro:wght@400;500;600;700&family=Sora:wght@300;400;500;600;700;800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Finverze — Financial Discipline for PUC Students</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root {
-  --ink: #0a0a0f;
-  --ink-2: #141420;
-  --ink-3: #1e1e2e;
-  --mid: #6b6b80;
-  --soft: #9d9db5;
-  --rule: #e2e2ec;
-  --paper: #f6f6fa;
-  --white: #ffffff;
-  --gold: #f5c842;
-  --gold-2: #e8a020;
-  --emerald: #00c896;
-  --violet: #6c47ff;
-  --violet-2: #8b6dff;
-  --rose: #ff4d6d;
+  :root {
+    --ink: #0E0E12;
+    --ink-soft: #2A2A35;
+    --cream: #F5F3EE;
+    --cream-dark: #EAE7E0;
+    --purple: #534AB7;
+    --purple-light: #EEEDFE;
+    --purple-mid: #AFA9EC;
+    --gold: #C9A84C;
+    --gold-light: #F5EDD4;
+    --muted: #7A7880;
+    --border: rgba(14,14,18,0.1);
+    --border-strong: rgba(14,14,18,0.2);
+    --ff-display: 'Playfair Display', Georgia, serif;
+    --ff-body: 'DM Sans', sans-serif;
+    --ff-mono: 'DM Mono', monospace;
+  }
 
-  --serif: 'DM Serif Display', Georgia, serif;
-  --sans: 'Sora', system-ui, sans-serif;
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  --r-sm: 8px;
-  --r-md: 14px;
-  --r-lg: 20px;
-  --r-xl: 28px;
-  --ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
+  html { scroll-behavior: smooth; }
 
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;}
-body{font-family:var(--sans);background:var(--white);color:var(--ink);overflow-x:hidden;line-height:1.6;}
-img{display:block;max-width:100%;}
-a{color:inherit;text-decoration:none;}
-button{font-family:inherit;cursor:pointer;border:none;background:none;}
+  body {
+    font-family: var(--ff-body);
+    background: var(--cream);
+    color: var(--ink);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
 
-.container{max-width:1120px;margin:0 auto;padding:0 32px;}
+  /* ── NOISE TEXTURE ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+  }
 
-/* REVEAL */
-.reveal{opacity:0;transform:translateY(24px);transition:opacity 0.7s var(--ease),transform 0.7s var(--ease);}
-.reveal.in{opacity:1;transform:none;}
-.rd1{transition-delay:0.1s;}.rd2{transition-delay:0.22s;}.rd3{transition-delay:0.34s;}.rd4{transition-delay:0.46s;}
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 3rem;
+    background: rgba(245,243,238,0.88);
+    backdrop-filter: blur(12px);
+    border-bottom: 0.5px solid var(--border);
+    transition: all 0.3s;
+  }
 
-/* NAV */
-.nav{
-  position:fixed;top:0;left:0;right:0;z-index:900;
-  padding:0 40px;height:64px;
-  display:flex;align-items:center;justify-content:space-between;
-  transition:background 0.4s,border-color 0.4s,box-shadow 0.4s;
-  border-bottom:1px solid transparent;
-}
-.nav__logo{font-family:var(--sans);font-size:1.1rem;font-weight:800;letter-spacing:-0.03em;color:#fff;transition:color 0.4s;}
-.nav__links a{font-size:0.83rem;font-weight:500;color:rgba(255,255,255,0.5);transition:color 0.2s;}
-.nav__links a:hover{color:#fff;}
-.nav .btn--ghost{color:rgba(255,255,255,0.7);border-color:rgba(255,255,255,0.18);}
-.nav .btn--ghost:hover{background:rgba(255,255,255,0.07);border-color:rgba(255,255,255,0.35);}
-.nav .btn--solid{background:#fff;color:var(--ink);}
-.nav .btn--solid:hover{background:var(--paper);}
-.nav__hamburger span{background:#fff;}
-.nav.scrolled{
-  background:rgba(255,255,255,0.92);
-  border-color:var(--rule);
-  backdrop-filter:blur(20px);
-  box-shadow:0 1px 0 var(--rule);
-}
-.nav.scrolled .nav__logo{color:var(--ink);}
-.nav.scrolled .nav__links a{color:var(--mid);}
-.nav.scrolled .nav__links a:hover{color:var(--ink);}
-.nav.scrolled .btn--ghost{color:var(--ink);border-color:var(--rule);}
-.nav.scrolled .btn--ghost:hover{background:var(--paper);border-color:var(--ink-3);}
-.nav.scrolled .btn--solid{background:var(--ink);color:#fff;}
-.nav.scrolled .btn--solid:hover{background:var(--ink-2);}
-.nav.scrolled .nav__hamburger span{background:var(--ink);}
-.nav__links{display:flex;gap:32px;list-style:none;align-items:center;}
-.nav__links a{font-size:0.83rem;font-weight:500;color:var(--mid);transition:color 0.2s;}
-.nav__links a:hover{color:var(--ink);}
-.nav__cta{display:flex;align-items:center;gap:10px;}
-.btn{display:inline-flex;align-items:center;justify-content:center;padding:10px 22px;font-family:var(--sans);font-size:0.83rem;font-weight:600;border-radius:100px;transition:all 0.22s var(--ease);white-space:nowrap;}
-.btn--ghost{color:var(--ink);background:transparent;border:1.5px solid var(--rule);}
-.btn--ghost:hover{border-color:var(--ink-3);background:var(--paper);}
-.btn--solid{color:var(--white);background:var(--ink);border:1.5px solid transparent;}
-.btn--solid:hover{background:var(--ink-2);transform:translateY(-1px);box-shadow:0 4px 20px rgba(9,9,11,0.2);}
-.btn--large{padding:14px 32px;font-size:0.93rem;border-radius:100px;}
-.btn--violet{background:var(--violet);color:#fff;box-shadow:0 2px 16px rgba(108,71,255,0.35);}
-.btn--violet:hover{background:var(--violet-2);transform:translateY(-2px);box-shadow:0 8px 32px rgba(108,71,255,0.5);}
+  .nav-logo {
+    font-family: var(--ff-display);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: -0.02em;
+    text-decoration: none;
+  }
 
-.nav__hamburger{display:none;flex-direction:column;gap:5px;padding:4px;}
-.nav__hamburger span{display:block;width:22px;height:1.5px;background:var(--ink);transition:all 0.3s;}
-.nav__drawer{position:fixed;inset:0;z-index:800;background:var(--white);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:32px;opacity:0;pointer-events:none;transition:opacity 0.3s var(--ease);}
-.nav__drawer.open{opacity:1;pointer-events:all;}
-.nav__drawer a{font-family:var(--serif);font-size:2.5rem;color:var(--ink);letter-spacing:-1px;}
-.nav__drawer a:hover{color:var(--violet);}
+  .nav-logo span {
+    color: var(--purple);
+  }
 
-/* ─── HERO ─── */
-.hero{
-  min-height:100svh;
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  align-items:center;
-  padding:100px 80px 80px;
-  position:relative;overflow:hidden;
-  background:#0a0a14;
-  gap:60px;
-}
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
 
-.hero__left{padding-left:40px;}
+  .nav-links a {
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
 
-/* Hero text overrides for dark bg */
-.hero .hero__ticker{color:rgba(255,255,255,0.4);}
-.hero .hero__headline{color:#ffffff;}
-.hero .hero__sub{color:rgba(255,255,255,0.5);}
-.hero .hero__proof-item{color:rgba(255,255,255,0.35);}
-.hero .hero__proof-item strong{color:rgba(255,255,255,0.75);}
-.hero .hero__proof-sep{background:rgba(255,255,255,0.12);}
-.btn--ghost.hero-ghost{color:rgba(255,255,255,0.75);border-color:rgba(255,255,255,0.18);}
-.btn--ghost.hero-ghost:hover{background:rgba(255,255,255,0.07);border-color:rgba(255,255,255,0.35);}
+  .nav-links a:hover { color: var(--ink); }
 
-/* Hero panel override for dark bg */
-.hero .hero__panel{
-  background:rgba(255,255,255,0.05);
-  border-color:rgba(255,255,255,0.1);
-}
-.hero .hero__panel::before{background:linear-gradient(135deg,rgba(108,71,255,0.12) 0%,rgba(255,77,109,0.07) 100%);}
-.hero .hero__panel-label{color:rgba(255,255,255,0.3);}
-.hero .hero__panel-stat-val{color:#fff;}
-.hero .hero__panel-stat-val span{color:rgba(255,255,255,0.4);}
-.hero .hero__panel-stat-label{color:rgba(255,255,255,0.35);}
-.hero .hero__panel-divider{background:rgba(255,255,255,0.08);}
-.hero .hero__panel-quote{color:rgba(255,255,255,0.4);}
-.hero .hero__panel-quote::before{color:rgba(255,255,255,0.08);}
-/* inline mini stats inside panel */
-.hero .hero__panel [style*="color:var(--ink)"]{color:#fff !important;}
-.hero .hero__panel [style*="color:var(--mid)"]{color:rgba(255,255,255,0.35) !important;}
+  .nav-cta {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+  }
 
-.hero__left{position:relative;z-index:5;}
-.hero__right{position:relative;z-index:5;display:flex;align-items:center;justify-content:center;}
+  .btn {
+    display: inline-block;
+    padding: 0.6rem 1.4rem;
+    font-family: var(--ff-body);
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+  }
 
+  .btn-ghost {
+    background: transparent;
+    color: var(--ink);
+    border: 0.5px solid var(--border-strong);
+  }
 
+  .btn-ghost:hover {
+    background: var(--ink);
+    color: var(--cream);
+    border-color: var(--ink);
+  }
 
-/* ─── HERO GEOMETRIC SHAPES ─── */
-.hero__shapes{
-  position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden;
-}
-/* Large circle top-right */
-.shape{position:absolute;border-radius:50%;will-change:transform;}
+  .btn-primary {
+    background: var(--ink);
+    color: var(--cream);
+  }
 
-.shape--c1{
-  width:clamp(180px,28vw,380px);height:clamp(180px,28vw,380px);
-  top:60%;right:5%;
-  background:var(--violet);
-  opacity:0.82;
-  animation:shapeFloat1 18s ease-in-out infinite;
-}
-.shape--c2{
-  width:clamp(60px,9vw,120px);height:clamp(60px,9vw,120px);
-  top:70%;left:5%;
-  background:var(--violet);
-  opacity:0.75;
-  animation:shapeFloat2 22s ease-in-out infinite;
-}
-.shape--c3{
-  width:clamp(90px,14vw,190px);height:clamp(90px,14vw,190px);
-  bottom:2%;left:30%;
-  background:var(--violet);
-  opacity:0.72;
-  animation:shapeFloat3 26s ease-in-out infinite;
-}
-/* Rounded rectangle / card shape */
-.shape--sq1{
-  position:absolute;
-  width:clamp(100px,14vw,190px);height:clamp(100px,14vw,190px);
-  border-radius:28px;
-  top:55%;right:35%;
-  background:rgba(180,170,210,0.55);
-  transform:rotate(-18deg);
-  animation:shapeRotate1 28s ease-in-out infinite;
-  opacity:0.7;
-}
-/* Small accent dot */
-.shape--dot{
-  width:clamp(22px,3.5vw,48px);height:clamp(22px,3.5vw,48px);
-  border-radius:50%;
-  top:80%;right:20%;
-  background:var(--violet);
-  opacity:0.45;
-  animation:shapeFloatDot 15s ease-in-out infinite;
-}
+  .btn-primary:hover {
+    background: var(--purple);
+  }
 
-@keyframes shapeFloat1{
-  0%  { transform: translate(0px, 0px) scale(1); }
-  20% { transform: translate(60px, -80px) scale(1.04); }
-  40% { transform: translate(-40px, -140px) scale(0.97); }
-  60% { transform: translate(90px, -60px) scale(1.06); }
-  80% { transform: translate(-20px, -110px) scale(0.98); }
-  100%{ transform: translate(0px, 0px) scale(1); }
-}
-@keyframes shapeFloat2{
-  0%  { transform: translate(0px, 0px); }
-  25% { transform: translate(120px, -90px); }
-  50% { transform: translate(60px, -180px); }
-  75% { transform: translate(-80px, -100px); }
-  100%{ transform: translate(0px, 0px); }
-}
-@keyframes shapeFloat3{
-  0%  { transform: translate(0px, 0px) scale(1); }
-  30% { transform: translate(100px, -120px) scale(1.05); }
-  55% { transform: translate(200px, -60px) scale(0.96); }
-  80% { transform: translate(80px, -160px) scale(1.03); }
-  100%{ transform: translate(0px, 0px) scale(1); }
-}
-@keyframes shapeRotate1{
-  0%  { transform: rotate(-18deg) translate(0px, 0px); }
-  25% { transform: rotate(5deg) translate(-100px, -80px) scale(1.05); }
-  50% { transform: rotate(-30deg) translate(60px, -160px) scale(0.95); }
-  75% { transform: rotate(12deg) translate(-60px, -60px) scale(1.07); }
-  100%{ transform: rotate(-18deg) translate(0px, 0px); }
-}
-@keyframes shapeFloatDot{
-  0%  { transform: translate(0px, 0px); }
-  20% { transform: translate(-80px, 60px); }
-  45% { transform: translate(100px, 120px); }
-  70% { transform: translate(-40px, 200px); }
-  100%{ transform: translate(0px, 0px); }
-}
+  .btn-gold {
+    background: var(--gold);
+    color: var(--ink);
+  }
 
-/* Mobile: shrink shapes further, keep them in background only */
-@media(max-width:900px){
-  .shape--c1{top:-5%;right:-6%;opacity:0.65;}
-  .shape--c2{top:auto;bottom:35%;left:1%;opacity:0.55;}
-  .shape--c3{bottom:2%;left:4%;opacity:0.55;}
-  .shape--sq1{right:2%;top:25%;opacity:0.45;}
-  .shape--dot{display:none;}
-}
-@media(max-width:600px){
-  .shape--c1{width:180px;height:180px;top:-3%;right:-8%;}
-  .shape--sq1{width:100px;height:100px;}
-  .shape--c2{width:60px;height:60px;}
-  .shape--c3{width:80px;height:80px;}
-}
+  .btn-gold:hover {
+    background: var(--ink);
+    color: var(--cream);
+  }
 
-/* Hero right panel   stat card */
-.hero__panel{
-  background:rgba(10,10,15,0.04);
-  border:1.5px solid rgba(10,10,15,0.08);
-  border-radius:24px;
-  padding:40px;
-  width:100%;
-  max-width:420px;
-  backdrop-filter:blur(8px);
-  position:relative;
-  overflow:hidden;
-}
-.hero__panel::before{
-  content:'';
-  position:absolute;inset:0;
-  background:linear-gradient(135deg,rgba(108,71,255,0.06) 0%,rgba(255,77,109,0.04) 100%);
-  border-radius:24px;
-}
-.hero__panel-label{font-size:0.68rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--soft);margin-bottom:28px;position:relative;}
-.hero__panel-stat{position:relative;margin-bottom:20px;}
-.hero__panel-stat-val{font-family:var(--sans);font-size:2.8rem;font-weight:800;letter-spacing:-0.04em;color:var(--ink);line-height:1;}
-.hero__panel-stat-val span{font-size:1.1rem;font-weight:500;color:var(--mid);letter-spacing:-0.01em;margin-left:4px;}
-.hero__panel-stat-label{font-size:0.8rem;color:var(--mid);margin-top:4px;}
-.hero__panel-divider{height:1px;background:var(--rule);margin:24px 0;}
-.hero__panel-quote{font-family:var(--serif);font-size:1.05rem;font-style:italic;color:var(--mid);line-height:1.6;position:relative;}
-.hero__panel-quote::before{content:'"';font-size:3rem;color:var(--rule);font-family:var(--serif);position:absolute;top:-10px;left:-8px;line-height:1;}
-.hero__panel-quote p{padding-left:28px;position:relative;z-index:1;}
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-top: 5rem;
+    position: relative;
+    overflow: hidden;
+  }
 
-.hero__ticker{
-  font-size:0.75rem;font-weight:600;color:var(--soft);
-  letter-spacing:0.01em;margin-bottom:32px;
-  display:flex;align-items:center;gap:8px;
-}
-.hero__ticker-live{width:6px;height:6px;border-radius:50%;background:#22c55e;box-shadow:0 0 6px #22c55e;animation:pulse-green 2s ease-in-out infinite;flex-shrink:0;}
-@keyframes pulse-green{0%,100%{opacity:1;box-shadow:0 0 6px #22c55e;}50%{opacity:0.5;box-shadow:0 0 2px #22c55e;}}
+  .hero-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 5rem 3rem 5rem 3rem;
+    position: relative;
+    z-index: 2;
+  }
 
-.hero__headline{
-  font-family:var(--sans);
-  font-size:clamp(2.6rem,5.5vw,5.2rem);
-  font-weight:800;line-height:1.0;
-  letter-spacing:-0.04em;
-  color:var(--ink);
-  max-width:600px;
-  margin-bottom:24px;
-}
-.hero__headline .accent{
-  background:linear-gradient(135deg,var(--violet) 0%,var(--rose) 50%,var(--gold-2) 100%);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-}
-.hero__sub{font-size:1.05rem;font-weight:400;color:var(--mid);max-width:440px;margin-bottom:40px;line-height:1.75;}
-.hero__actions{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:48px;}
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--ff-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--purple);
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.2s forwards;
+  }
 
-.hero__proof{display:flex;align-items:center;gap:24px;flex-wrap:wrap;}
-.hero__proof-item{font-size:0.8rem;color:var(--soft);display:flex;align-items:center;gap:6px;}
-.hero__proof-item strong{color:var(--ink-3);font-weight:600;}
-.hero__proof-sep{width:1px;height:14px;background:var(--rule);}
+  .hero-eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 24px;
+    height: 1px;
+    background: var(--purple);
+  }
 
-/* ─── MARQUEE ─── */
-.marquee-strip{background:var(--ink);padding:16px 0;overflow:hidden;display:flex;}
-.marquee-track{display:flex;gap:0;white-space:nowrap;animation:marquee 32s linear infinite;min-width:max-content;}
-@keyframes marquee{from{transform:translateX(0);}to{transform:translateX(-50%);}}
-.marquee-item{font-size:0.75rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.3);padding:0 40px;display:inline-flex;align-items:center;}
-.marquee-item::after{content:'·';margin-left:40px;color:rgba(255,255,255,0.15);}
+  .hero-h1 {
+    font-family: var(--ff-display);
+    font-size: clamp(3rem, 5vw, 4.5rem);
+    font-weight: 500;
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.35s forwards;
+  }
 
-/* ─── SECTION BASE ─── */
-.section{padding:100px 0;}
-.section--paper{background:var(--paper);}
-.section--ink{background:var(--ink);color:var(--white);}
-.section--navy{background:#07091a;color:var(--white);}
+  .hero-h1 em {
+    font-style: italic;
+    color: var(--purple);
+  }
 
-.section__eyebrow{display:inline-block;font-size:0.7rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--soft);margin-bottom:16px;}
-.section--ink .section__eyebrow,.section--navy .section__eyebrow{color:rgba(255,255,255,0.3);}
+  .hero-sub {
+    font-size: 1rem;
+    color: var(--muted);
+    line-height: 1.7;
+    max-width: 420px;
+    margin-bottom: 2.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.5s forwards;
+  }
 
-.section__heading{font-family:var(--sans);font-size:clamp(2rem,4vw,3.2rem);font-weight:800;line-height:1.05;letter-spacing:-0.03em;max-width:680px;}
-.section__heading em{font-family:var(--serif);font-style:italic;font-weight:400;color:var(--soft);}
-.section--ink .section__heading em,.section--navy .section__heading em{color:rgba(255,255,255,0.35);}
-.section__body{font-size:1rem;color:var(--mid);line-height:1.8;max-width:500px;margin-top:16px;}
-.section--ink .section__body{color:rgba(255,255,255,0.45);}
-.divider{height:1px;background:var(--rule);}
+  .hero-sub strong {
+    color: var(--ink);
+    font-weight: 500;
+  }
 
-/* ─── PROBLEM / STORY ─── */
-.problem{padding:100px 0 60px;}
-.problem__grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;}
-.problem__left{}
-.problem__eyebrow{font-size:0.7rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--rose);margin-bottom:24px;}
-.problem__statement{
-  font-family:var(--sans);
-  font-size:clamp(1.7rem,3.2vw,2.7rem);
-  font-weight:700;line-height:1.2;letter-spacing:-0.03em;
-  color:var(--ink-2);
-}
-.problem__statement strong{color:var(--ink);}
-.problem__statement em{font-family:var(--serif);font-style:italic;color:var(--mid);font-weight:400;}
-.problem__note{margin-top:28px;font-size:0.92rem;color:var(--soft);max-width:420px;line-height:1.8;}
-.problem__right{}
-.problem__cards{display:flex;flex-direction:column;gap:16px;}
-.problem__card{
-  background:var(--paper);
-  border:1.5px solid var(--rule);
-  border-radius:var(--r-lg);
-  padding:24px 28px;
-  display:flex;gap:16px;align-items:flex-start;
-  transition:border-color 0.3s,box-shadow 0.3s;
-}
-.problem__card:hover{border-color:#c4c4d4;box-shadow:0 8px 32px rgba(10,10,15,0.06);}
-.problem__card-icon{font-size:1.4rem;flex-shrink:0;margin-top:2px;}
-.problem__card-title{font-weight:700;font-size:0.9rem;color:var(--ink);margin-bottom:4px;}
-.problem__card-desc{font-size:0.83rem;color:var(--mid);line-height:1.6;}
+  .hero-actions {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.65s forwards;
+  }
 
-/* ─── JOURNEY / PROGRAMS ─── */
-.journey{padding:100px 0;}
-.journey__stages{
-  display:grid;
-  grid-template-columns:1fr 1fr 1fr;
-  gap:24px;
-  margin-top:56px;
-}
+  .hero-right {
+    background: var(--ink);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
-.stage{
-  border-radius:var(--r-xl);
-  padding:36px 32px;
-  border:1.5px solid var(--rule);
-  background:var(--white);
-  position:relative;
-  overflow:hidden;
-  transition:border-color 0.3s,box-shadow 0.3s,transform 0.3s;
-}
-.stage:hover{box-shadow:0 12px 48px rgba(10,10,15,0.07);transform:translateY(-4px);}
-.stage--featured{
-  background:linear-gradient(145deg,#07091a 0%,#14103a 100%);
-  border-color:transparent;
-  color:var(--white);
-}
-.stage--featured:hover{box-shadow:0 20px 60px rgba(7,9,26,0.45);}
-.stage__tag{font-size:0.65rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--soft);margin-bottom:20px;}
-.stage--featured .stage__tag{color:rgba(255,255,255,0.3);}
-.stage__icon{
-  width:44px;height:44px;border-radius:var(--r-sm);
-  background:var(--paper);
-  display:flex;align-items:center;justify-content:center;
-  margin-bottom:20px;
-}
-.stage--featured .stage__icon{background:rgba(255,255,255,0.08);}
-.stage__icon svg{width:20px;height:20px;}
-.stage__name{font-weight:800;font-size:1.15rem;letter-spacing:-0.02em;margin-bottom:12px;}
-.stage__duration{
-  display:inline-flex;align-items:center;gap:6px;
-  background:rgba(108,71,255,0.1);color:var(--violet);
-  font-size:0.7rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;
-  border-radius:100px;padding:4px 12px;margin-bottom:16px;
-}
-.stage--featured .stage__duration{background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.8);}
-.stage__desc{font-size:0.87rem;color:var(--mid);line-height:1.7;}
-.stage--featured .stage__desc{color:rgba(255,255,255,0.55);}
-.stage__badge{
-  display:inline-flex;align-items:center;gap:6px;
-  background:rgba(0,200,150,0.12);color:var(--emerald);
-  font-size:0.68rem;font-weight:700;letter-spacing:0.08em;
-  border-radius:100px;padding:5px 14px;margin-top:20px;
-  border:1px solid rgba(0,200,150,0.2);
-}
-.stage__badge-dot{width:5px;height:5px;border-radius:50%;background:var(--emerald);animation:pulse-green 2s infinite;}
+  .hero-right::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 30% 50%, #534AB720 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 20%, #C9A84C15 0%, transparent 50%);
+  }
 
-/* ─── COHORT DEEP-DIVE ─── */
-.cohort{padding:100px 0;background:var(--ink);}
-.cohort__inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;}
-.cohort__left{}
-.cohort__eyebrow{font-size:0.7rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--violet-2);margin-bottom:16px;}
-.cohort__heading{
-  font-family:var(--sans);
-  font-size:clamp(2rem,4vw,3.2rem);
-  font-weight:800;line-height:1.05;letter-spacing:-0.03em;
-  color:var(--white);margin-bottom:20px;
-}
-.cohort__heading em{font-family:var(--serif);font-style:italic;font-weight:400;color:rgba(255,255,255,0.35);}
-.cohort__body{font-size:1rem;color:rgba(255,255,255,0.5);line-height:1.8;margin-bottom:32px;}
-.cohort__features{display:flex;flex-direction:column;gap:20px;}
-.cohort__feature{display:flex;gap:16px;align-items:flex-start;}
-.cohort__feature-mark{
-  width:36px;height:36px;border-radius:var(--r-sm);flex-shrink:0;
-  background:rgba(255,255,255,0.06);
-  display:flex;align-items:center;justify-content:center;
-  margin-top:2px;
-}
-.cohort__feature-mark svg{width:15px;height:15px;fill:none;stroke:rgba(255,255,255,0.4);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
-.cohort__feature-title{font-weight:700;font-size:0.9rem;color:var(--white);margin-bottom:4px;}
-.cohort__feature-desc{font-size:0.83rem;color:rgba(255,255,255,0.4);line-height:1.6;}
+  .hero-card-stack {
+    position: relative;
+    z-index: 2;
+    padding: 3rem;
+    width: 100%;
+    max-width: 420px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.8s forwards;
+  }
 
-/* Cohort Card */
-.cohort__card{
-  background:linear-gradient(145deg,#0d0f1f 0%,#12103a 100%);
-  border:1px solid rgba(108,71,255,0.25);
-  border-radius:24px;padding:40px;
-  position:relative;overflow:hidden;
-  box-shadow:0 32px 80px rgba(0,0,0,0.5),inset 0 1px 0 rgba(255,255,255,0.06);
-}
-.cohort__card::before{
-  content:'';position:absolute;
-  top:-80px;right:-80px;
-  width:280px;height:280px;
-  background:radial-gradient(ellipse,rgba(108,71,255,0.25) 0%,transparent 70%);
-  pointer-events:none;
-}
-.cohort__card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:32px;}
-.cohort__card-logo{font-weight:800;font-size:0.95rem;color:var(--white);letter-spacing:-0.02em;}
-.cohort__card-badge{
-  background:rgba(0,200,150,0.12);
-  border:1px solid rgba(0,200,150,0.25);
-  color:var(--emerald);
-  font-size:0.68rem;font-weight:700;letter-spacing:0.08em;
-  border-radius:100px;padding:5px 14px;
-}
-.cohort__stats{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:28px;}
-.cohort__stat{
-  background:rgba(255,255,255,0.04);
-  border:1px solid rgba(255,255,255,0.06);
-  border-radius:var(--r-md);padding:20px;
-  transition:background 0.3s;
-}
-.cohort__stat:hover{background:rgba(255,255,255,0.07);}
-.cohort__stat-val{font-size:2rem;font-weight:800;letter-spacing:-0.04em;color:var(--white);line-height:1;}
-.cohort__stat-label{font-size:0.75rem;color:rgba(255,255,255,0.35);margin-top:6px;}
-.cohort__card-divider{height:1px;background:rgba(255,255,255,0.08);margin-bottom:24px;}
-.cohort__cta-btn{
-  display:flex;align-items:center;justify-content:center;
-  width:100%;padding:16px;
-  background:var(--white);color:var(--ink);
-  font-family:var(--sans);font-weight:700;font-size:0.9rem;
-  border-radius:100px;cursor:pointer;
-  transition:all 0.22s;border:none;
-}
-.cohort__cta-btn:hover{background:var(--paper);transform:translateY(-1px);box-shadow:0 8px 24px rgba(255,255,255,0.15);}
-.cohort__cta-note{text-align:center;font-size:0.75rem;color:rgba(255,255,255,0.25);margin-top:12px;}
+  .stat-card {
+    background: rgba(255,255,255,0.05);
+    border: 0.5px solid rgba(255,255,255,0.1);
+    border-radius: 4px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+  }
 
-/* ─── OUTCOMES ─── */
-.outcomes{padding:100px 0;}
-.outcomes__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:var(--r-xl);overflow:hidden;margin-top:56px;}
-.outcome__cell{background:var(--white);padding:36px;transition:background 0.3s;}
-.outcome__cell:hover{background:var(--paper);}
-.outcome__num{font-size:0.68rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--soft);margin-bottom:16px;}
-.outcome__label{font-weight:700;font-size:1rem;color:var(--ink);margin-bottom:8px;}
-.outcome__desc{font-size:0.83rem;color:var(--mid);line-height:1.65;}
+  .stat-card-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    font-family: var(--ff-mono);
+    margin-bottom: 0.5rem;
+  }
 
-/* ─── PROCESS ─── */
-.process{padding:100px 0;background:var(--paper);}
-.process__steps{display:grid;grid-template-columns:repeat(4,1fr);gap:32px;margin-top:56px;}
-.process__step{padding:28px 0;}
-.process__step-num{font-size:0.68rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--violet);margin-bottom:16px;}
-.process__step-title{font-weight:700;font-size:1rem;color:var(--ink);margin-bottom:8px;}
-.process__step-body{font-size:0.83rem;color:var(--mid);line-height:1.65;}
+  .stat-card-value {
+    font-family: var(--ff-display);
+    font-size: 2.5rem;
+    font-weight: 500;
+    color: var(--cream);
+    line-height: 1;
+  }
 
-/* ─── WHY FINVERZE ─── */
-.reasons{padding:100px 0;}
-.reasons__list{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:var(--r-xl);overflow:hidden;margin-top:56px;}
-.reasons__item{background:var(--white);padding:40px;transition:background 0.3s;}
-.reasons__item:hover{background:var(--paper);}
-.reasons__item:last-child:nth-child(odd){grid-column:1/-1;}
-.reasons__item-num{font-size:0.68rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--soft);display:block;margin-bottom:14px;}
-.reasons__item-title{font-weight:700;font-size:1.05rem;color:var(--ink);margin-bottom:8px;}
-.reasons__item-body{font-size:0.85rem;color:var(--mid);line-height:1.7;}
+  .stat-card-sub {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.4);
+    margin-top: 0.35rem;
+  }
 
-/* ─── BOOK / CONTACT ─── */
-.book{padding:100px 0;}
-.book__inner{display:grid;grid-template-columns:1fr 1.2fr;gap:80px;align-items:flex-start;}
-.book__heading{font-family:var(--sans);font-size:clamp(2rem,4vw,3.2rem);font-weight:800;letter-spacing:-0.03em;line-height:1.05;margin-bottom:16px;}
-.book__subhead{font-size:1rem;color:var(--mid);line-height:1.8;margin-bottom:24px;}
-.book__contact{font-size:0.85rem;color:var(--mid);}
-.book__contact a{color:var(--violet);font-weight:600;}
+  .stat-card.accent {
+    background: var(--purple);
+    border-color: transparent;
+  }
 
-/* Form */
-.form{background:var(--paper);border:1.5px solid var(--rule);border-radius:var(--r-xl);padding:40px;}
-.form__row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
-.form__group{display:flex;flex-direction:column;gap:8px;margin-bottom:16px;}
-.form__group:last-child{margin-bottom:0;}
-.form__label{font-size:0.78rem;font-weight:600;color:var(--ink-3);letter-spacing:0.01em;}
-.form__input,.form__select{
-  width:100%;padding:12px 16px;
-  background:var(--white);
-  border:1.5px solid var(--rule);border-radius:var(--r-md);
-  font-family:var(--sans);font-size:0.87rem;color:var(--ink);
-  transition:border-color 0.22s,box-shadow 0.22s;outline:none;
-  appearance:none;-webkit-appearance:none;
-}
-.form__input::placeholder{color:var(--soft);}
-.form__input:focus,.form__select:focus{border-color:var(--violet);box-shadow:0 0 0 3px rgba(108,71,255,0.12);}
-.form__select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239d9db5' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;background-size:16px;padding-right:40px;cursor:pointer;}
-.form__submit{
-  width:100%;padding:14px;margin-top:4px;
-  background:var(--ink);color:var(--white);
-  font-family:var(--sans);font-weight:700;font-size:0.9rem;
-  border-radius:100px;border:none;cursor:pointer;
-  transition:all 0.22s;
-}
-.form__submit:hover{background:var(--ink-2);transform:translateY(-1px);box-shadow:0 8px 24px rgba(10,10,15,0.2);}
-.form__success{display:none;background:rgba(0,200,150,0.08);border:1px solid rgba(0,200,150,0.2);border-radius:var(--r-md);padding:16px;text-align:center;font-size:0.85rem;font-weight:500;color:var(--emerald);margin-top:12px;}
+  .stat-card.accent .stat-card-label { color: rgba(255,255,255,0.6); }
+  .stat-card.accent .stat-card-value { color: white; }
+  .stat-card.accent .stat-card-sub { color: rgba(255,255,255,0.7); }
 
-/* ─── CTA BANNER ─── */
-.cta-banner{
-  padding:100px 0;
-  background:linear-gradient(135deg,#07091a 0%,#14103a 100%);
-  position:relative;overflow:hidden;
-  text-align:center;
-}
-.cta-banner::before{content:'';position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:600px;height:400px;background:radial-gradient(ellipse,rgba(108,71,255,0.3) 0%,transparent 70%);pointer-events:none;}
-.cta-banner__heading{font-family:var(--sans);font-size:clamp(2.2rem,4.5vw,4rem);font-weight:800;letter-spacing:-0.04em;color:var(--white);line-height:1.0;margin-bottom:16px;position:relative;}
-.cta-banner__heading em{font-family:var(--serif);font-style:italic;font-weight:400;color:rgba(255,255,255,0.4);}
-.cta-banner__sub{font-size:1rem;color:rgba(255,255,255,0.45);margin-bottom:40px;position:relative;}
-.cta-banner__actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;position:relative;}
+  .stat-card.gold-card {
+    background: var(--gold);
+    border-color: transparent;
+  }
 
-/* ─── FOOTER ─── */
-.footer{background:var(--ink);padding:60px 0 32px;}
-.footer__inner{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:48px;padding-bottom:48px;border-bottom:1px solid rgba(255,255,255,0.07);}
-.footer__brand-name{font-weight:800;font-size:1.1rem;color:var(--white);letter-spacing:-0.02em;margin-bottom:12px;}
-.footer__brand-desc{font-size:0.83rem;color:rgba(255,255,255,0.3);line-height:1.7;max-width:260px;}
-.footer__col-title{font-size:0.7rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.25);margin-bottom:16px;}
-.footer__links{display:flex;flex-direction:column;gap:10px;}
-.footer__links a{font-size:0.85rem;color:rgba(255,255,255,0.45);transition:color 0.2s;}
-.footer__links a:hover{color:var(--white);}
-.footer__bottom{display:flex;justify-content:space-between;align-items:center;padding-top:28px;font-size:0.78rem;color:rgba(255,255,255,0.2);}
+  .stat-card.gold-card .stat-card-label { color: rgba(14,14,18,0.6); }
+  .stat-card.gold-card .stat-card-value { color: var(--ink); }
+  .stat-card.gold-card .stat-card-sub { color: rgba(14,14,18,0.6); }
 
-/* ─── RESPONSIVE ─── */
-@media(max-width:900px){
-  .hero{grid-template-columns:1fr;padding:100px 32px 60px;gap:40px;min-height:unset;}
-  .hero__left{padding-left:0;}
-  .hero__right{justify-content:flex-start;}
-  .hero__panel{max-width:100%;}
-  .blob1,.blob2,.blob3{opacity:0.4;}
-  .problem__grid{grid-template-columns:1fr;gap:40px;}
-  .journey__stages{grid-template-columns:1fr;gap:16px;}
-  .cohort__inner{grid-template-columns:1fr;gap:48px;}
-  .outcomes__grid{grid-template-columns:1fr 1fr;}
-  .process__steps{grid-template-columns:1fr 1fr;gap:24px;}
-  .reasons__list{grid-template-columns:1fr;}
-  .reasons__item:last-child:nth-child(odd){grid-column:auto;}
-  .book__inner{grid-template-columns:1fr;gap:40px;}
-  .form__row{grid-template-columns:1fr;}
-  .footer__inner{grid-template-columns:1fr;gap:32px;}
-  .footer__bottom{flex-direction:column;gap:8px;text-align:center;}
-  .nav__links,.nav__cta{display:none;}
-  .nav__hamburger{display:flex;}
-  .nav{padding:0 24px;}
-}
-@media(max-width:600px){
-  .hero__headline{font-size:clamp(2.4rem,10vw,3.8rem);}
-  .outcomes__grid{grid-template-columns:1fr;}
-  .process__steps{grid-template-columns:1fr;}
-  .container{padding:0 20px;}
-  .hero{padding:90px 20px 60px;}
-  .cohort__stats{grid-template-columns:1fr 1fr;}
-}
+  .hero-card-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  /* ── TICKER ── */
+  .ticker {
+    background: var(--ink);
+    padding: 0.75rem 0;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .ticker-track {
+    display: flex;
+    gap: 0;
+    animation: ticker 20s linear infinite;
+    white-space: nowrap;
+  }
+
+  .ticker-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 2rem;
+    padding: 0 2rem;
+    font-family: var(--ff-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+  }
+
+  .ticker-item span {
+    color: var(--gold);
+  }
+
+  @keyframes ticker {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ── SECTIONS ── */
+  section {
+    padding: 7rem 3rem;
+  }
+
+  .section-eyebrow {
+    font-family: var(--ff-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--purple);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .section-eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 1px;
+    background: var(--purple);
+  }
+
+  .section-h2 {
+    font-family: var(--ff-display);
+    font-size: clamp(2.2rem, 4vw, 3.5rem);
+    font-weight: 500;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 1.25rem;
+  }
+
+  .section-h2 em {
+    font-style: italic;
+    color: var(--purple);
+  }
+
+  .section-lead {
+    font-size: 1rem;
+    color: var(--muted);
+    line-height: 1.75;
+    max-width: 520px;
+  }
+
+  /* ── PROBLEM SECTION ── */
+  .problem {
+    background: var(--ink);
+    color: var(--cream);
+  }
+
+  .problem .section-eyebrow { color: var(--gold); }
+  .problem .section-eyebrow::before { background: var(--gold); }
+  .problem .section-h2 { color: var(--cream); }
+  .problem .section-h2 em { color: var(--purple-mid); }
+  .problem .section-lead { color: rgba(245,243,238,0.55); }
+
+  .problem-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: 4rem;
+  }
+
+  .problem-card {
+    border: 0.5px solid rgba(255,255,255,0.08);
+    border-radius: 4px;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s;
+  }
+
+  .problem-card:hover { border-color: rgba(255,255,255,0.2); }
+
+  .problem-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px;
+    height: 100%;
+    background: var(--purple);
+  }
+
+  .problem-card:nth-child(2)::before { background: var(--gold); }
+  .problem-card:nth-child(3)::before { background: var(--purple-mid); }
+  .problem-card:nth-child(4)::before { background: rgba(255,255,255,0.2); }
+
+  .problem-num {
+    font-family: var(--ff-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    color: rgba(255,255,255,0.25);
+    margin-bottom: 1rem;
+  }
+
+  .problem-title {
+    font-family: var(--ff-display);
+    font-size: 1.3rem;
+    font-weight: 500;
+    color: var(--cream);
+    margin-bottom: 0.75rem;
+    line-height: 1.3;
+  }
+
+  .problem-desc {
+    font-size: 0.875rem;
+    color: rgba(245,243,238,0.5);
+    line-height: 1.7;
+  }
+
+  /* ── PROGRAMS ── */
+  .programs-layout {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 5rem;
+    align-items: start;
+    margin-top: 4rem;
+  }
+
+  .programs-sticky {
+    position: sticky;
+    top: 8rem;
+  }
+
+  .program-item {
+    border-top: 0.5px solid var(--border);
+    padding: 2.5rem 0;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 2rem;
+    align-items: start;
+    transition: all 0.3s;
+    cursor: default;
+  }
+
+  .program-item:last-child { border-bottom: 0.5px solid var(--border); }
+
+  .program-num {
+    font-family: var(--ff-mono);
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    padding-top: 0.2rem;
+  }
+
+  .program-body {}
+
+  .program-tag {
+    display: inline-block;
+    font-family: var(--ff-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.6rem;
+    border-radius: 2px;
+    margin-bottom: 0.75rem;
+  }
+
+  .tag-free { background: var(--gold-light); color: var(--gold); }
+  .tag-core { background: var(--purple-light); color: var(--purple); }
+  .tag-adv { background: var(--ink); color: var(--cream); }
+
+  .program-title {
+    font-family: var(--ff-display);
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 0.5rem;
+    line-height: 1.2;
+  }
+
+  .program-desc {
+    font-size: 0.875rem;
+    color: var(--muted);
+    line-height: 1.7;
+    margin-bottom: 1.25rem;
+  }
+
+  .program-details {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .program-detail {
+    font-family: var(--ff-mono);
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+
+  .program-detail strong {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--ink);
+    font-weight: 500;
+    font-family: var(--ff-body);
+    margin-bottom: 0.1rem;
+  }
+
+  .program-price {
+    text-align: right;
+  }
+
+  .program-price-val {
+    font-family: var(--ff-display);
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: var(--ink);
+  }
+
+  .program-price-note {
+    font-size: 0.7rem;
+    color: var(--muted);
+    font-family: var(--ff-mono);
+  }
+
+  /* ── COHORT SECTION ── */
+  .cohort {
+    background: var(--ink-soft);
+    color: var(--cream);
+  }
+
+  .cohort .section-eyebrow { color: var(--purple-mid); }
+  .cohort .section-eyebrow::before { background: var(--purple-mid); }
+  .cohort .section-h2 { color: var(--cream); }
+  .cohort .section-h2 em { color: var(--purple-mid); }
+  .cohort .section-lead { color: rgba(245,243,238,0.5); }
+
+  .cohort-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    margin-top: 4rem;
+    align-items: start;
+  }
+
+  .day-list { margin-top: 2rem; }
+
+  .day-item {
+    display: flex;
+    gap: 1.25rem;
+    padding: 1.25rem 0;
+    border-bottom: 0.5px solid rgba(255,255,255,0.07);
+    align-items: flex-start;
+  }
+
+  .day-item:first-child { padding-top: 0; }
+
+  .day-dot {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.06);
+    border: 0.5px solid rgba(255,255,255,0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--ff-mono);
+    font-size: 0.65rem;
+    color: rgba(255,255,255,0.4);
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+  }
+
+  .day-dot.active {
+    background: var(--purple);
+    border-color: var(--purple);
+    color: white;
+  }
+
+  .day-body { flex: 1; }
+
+  .day-title {
+    font-size: 0.925rem;
+    font-weight: 500;
+    color: var(--cream);
+    margin-bottom: 0.2rem;
+  }
+
+  .day-desc {
+    font-size: 0.8rem;
+    color: rgba(245,243,238,0.45);
+    line-height: 1.6;
+  }
+
+  .cohort-right {}
+
+  .expert-card {
+    background: rgba(255,255,255,0.04);
+    border: 0.5px solid rgba(255,255,255,0.1);
+    border-radius: 4px;
+    padding: 1.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .expert-card-label {
+    font-family: var(--ff-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+  }
+
+  .expert-card-title {
+    font-family: var(--ff-display);
+    font-size: 1.3rem;
+    font-weight: 500;
+    color: var(--cream);
+    line-height: 1.3;
+    margin-bottom: 0.75rem;
+  }
+
+  .expert-card-desc {
+    font-size: 0.85rem;
+    color: rgba(245,243,238,0.5);
+    line-height: 1.7;
+  }
+
+  .credential-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.875rem 0;
+    border-bottom: 0.5px solid rgba(255,255,255,0.07);
+  }
+
+  .credential-row:last-child { border-bottom: none; }
+
+  .credential-icon {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--gold);
+    flex-shrink: 0;
+  }
+
+  .credential-text {
+    font-size: 0.85rem;
+    color: rgba(245,243,238,0.7);
+  }
+
+  /* ── PROOF / OUTCOMES ── */
+  .outcomes-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    margin-top: 4rem;
+    border: 0.5px solid var(--border);
+  }
+
+  .outcome-item {
+    padding: 2.5rem;
+    border-right: 0.5px solid var(--border);
+    border-bottom: 0.5px solid var(--border);
+    position: relative;
+    transition: background 0.3s;
+  }
+
+  .outcome-item:hover { background: var(--purple-light); }
+  .outcome-item:nth-child(3n) { border-right: none; }
+  .outcome-item:nth-last-child(-n+3) { border-bottom: none; }
+
+  .outcome-num {
+    font-family: var(--ff-display);
+    font-size: 3rem;
+    font-weight: 400;
+    color: var(--purple);
+    line-height: 1;
+    margin-bottom: 0.75rem;
+    font-style: italic;
+  }
+
+  .outcome-title {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 0.4rem;
+  }
+
+  .outcome-desc {
+    font-size: 0.8rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* ── HOW IT WORKS ── */
+  .how {
+    background: var(--cream-dark);
+  }
+
+  .how-steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    margin-top: 4rem;
+    border-top: 0.5px solid var(--border);
+    border-left: 0.5px solid var(--border);
+  }
+
+  .how-step {
+    padding: 2.5rem 2rem;
+    border-right: 0.5px solid var(--border);
+    border-bottom: 0.5px solid var(--border);
+    position: relative;
+  }
+
+  .how-step-num {
+    font-family: var(--ff-display);
+    font-size: 4rem;
+    font-weight: 400;
+    color: var(--border-strong);
+    line-height: 1;
+    margin-bottom: 1.5rem;
+    font-style: italic;
+  }
+
+  .how-step-title {
+    font-family: var(--ff-display);
+    font-size: 1.15rem;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 0.6rem;
+    line-height: 1.3;
+  }
+
+  .how-step-desc {
+    font-size: 0.8rem;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  .how-step-tag {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    font-family: var(--ff-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.5rem;
+    border-radius: 2px;
+    background: var(--gold-light);
+    color: var(--gold);
+  }
+
+  /* ── WHY FINVERZE ── */
+  .why-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-top: 4rem;
+  }
+
+  .why-card {
+    border: 0.5px solid var(--border);
+    border-radius: 4px;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+
+  .why-card:hover {
+    border-color: var(--purple);
+    transform: translateY(-2px);
+  }
+
+  .why-card:first-child {
+    grid-column: span 2;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    background: var(--ink);
+    border-color: transparent;
+  }
+
+  .why-card:first-child .why-title { color: var(--cream); }
+  .why-card:first-child .why-desc { color: rgba(245,243,238,0.5); }
+  .why-card:first-child .why-num { color: var(--purple-mid); }
+
+  .why-num {
+    font-family: var(--ff-display);
+    font-size: 0.9rem;
+    font-style: italic;
+    color: var(--purple);
+    margin-bottom: 0.75rem;
+  }
+
+  .why-title {
+    font-family: var(--ff-display);
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 0.6rem;
+    line-height: 1.3;
+  }
+
+  .why-desc {
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  /* ── CONTACT ── */
+  .contact {
+    background: var(--ink);
+    color: var(--cream);
+  }
+
+  .contact .section-eyebrow { color: var(--gold); }
+  .contact .section-eyebrow::before { background: var(--gold); }
+  .contact .section-h2 { color: var(--cream); }
+  .contact .section-h2 em { color: var(--purple-mid); }
+
+  .contact-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    margin-top: 4rem;
+    align-items: start;
+  }
+
+  .contact-info {}
+
+  .contact-detail {
+    border-top: 0.5px solid rgba(255,255,255,0.08);
+    padding: 1.5rem 0;
+  }
+
+  .contact-detail:last-child { border-bottom: 0.5px solid rgba(255,255,255,0.08); }
+
+  .contact-detail-label {
+    font-family: var(--ff-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.3);
+    margin-bottom: 0.4rem;
+  }
+
+  .contact-detail-val {
+    font-size: 0.95rem;
+    color: var(--cream);
+  }
+
+  .contact-detail-val a {
+    color: var(--gold);
+    text-decoration: none;
+  }
+
+  .contact-form {
+    background: rgba(255,255,255,0.04);
+    border: 0.5px solid rgba(255,255,255,0.08);
+    border-radius: 4px;
+    padding: 2.5rem;
+  }
+
+  .form-title {
+    font-family: var(--ff-display);
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: var(--cream);
+    margin-bottom: 0.5rem;
+  }
+
+  .form-sub {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 2rem;
+  }
+
+  .form-group {
+    margin-bottom: 1.25rem;
+  }
+
+  .form-label {
+    display: block;
+    font-family: var(--ff-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 0.4rem;
+  }
+
+  .form-input, .form-select {
+    width: 100%;
+    background: rgba(255,255,255,0.06);
+    border: 0.5px solid rgba(255,255,255,0.1);
+    border-radius: 2px;
+    padding: 0.75rem 1rem;
+    font-family: var(--ff-body);
+    font-size: 0.875rem;
+    color: var(--cream);
+    outline: none;
+    transition: border-color 0.2s;
+    -webkit-appearance: none;
+  }
+
+  .form-input::placeholder { color: rgba(255,255,255,0.2); }
+  .form-input:focus, .form-select:focus { border-color: var(--purple-mid); }
+
+  .form-select {
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.4)' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    padding-right: 2.5rem;
+  }
+
+  .form-select option { background: var(--ink-soft); color: var(--cream); }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .form-note {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.3);
+    margin-top: 1rem;
+    font-family: var(--ff-mono);
+    letter-spacing: 0.03em;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--ink);
+    border-top: 0.5px solid rgba(255,255,255,0.06);
+    padding: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .footer-logo {
+    font-family: var(--ff-display);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: rgba(255,255,255,0.3);
+    letter-spacing: -0.02em;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .footer-links a {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.3);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-family: var(--ff-mono);
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: rgba(255,255,255,0.7); }
+
+  .footer-copy {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.2);
+    font-family: var(--ff-mono);
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── MOBILE ── */
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; min-height: auto; }
+    .hero-left { padding: 7rem 1.5rem 3rem; }
+    .hero-right { min-height: 320px; }
+    .hero-card-grid { grid-template-columns: 1fr 1fr; }
+    section { padding: 4rem 1.5rem; }
+    .problem-grid { grid-template-columns: 1fr; }
+    .programs-layout { grid-template-columns: 1fr; gap: 2rem; }
+    .programs-sticky { position: relative; top: 0; }
+    .cohort-layout { grid-template-columns: 1fr; gap: 3rem; }
+    .outcomes-grid { grid-template-columns: 1fr 1fr; }
+    .outcome-item:nth-child(2n) { border-right: none; }
+    .outcome-item:nth-child(3n) { border-right: 0.5px solid var(--border); }
+    .how-steps { grid-template-columns: 1fr 1fr; }
+    .why-grid { grid-template-columns: 1fr; }
+    .why-card:first-child { grid-column: span 1; grid-template-columns: 1fr; }
+    .contact-layout { grid-template-columns: 1fr; gap: 3rem; }
+    .form-row { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 1.5rem; text-align: center; }
+    .footer-links { flex-wrap: wrap; justify-content: center; }
+  }
 </style>
 </head>
 <body>
 
 <!-- NAV -->
-<nav class="nav" id="nav">
-  <a href="#" class="nav__logo">Finverze</a>
-  <ul class="nav__links">
+<nav>
+  <a href="#" class="nav-logo">Fin<span>verze</span></a>
+  <ul class="nav-links">
     <li><a href="#about">About</a></li>
     <li><a href="#programs">Programs</a></li>
     <li><a href="#cohort">The Cohort</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
-  <div class="nav__cta">
-    <a href="#contact" class="btn btn--ghost">For Colleges</a>
-    <a href="#cohort" class="btn btn--solid">Apply Now</a>
+  <div class="nav-cta">
+    <a href="#programs" class="btn btn-ghost">Our Programs</a>
+    <a href="#contact" class="btn btn-primary">Partner With Us</a>
   </div>
-  <button class="nav__hamburger" id="hamburger" aria-label="Menu" aria-expanded="false">
-    <span></span><span></span><span></span>
-  </button>
 </nav>
 
-<!-- MOBILE DRAWER -->
-<div class="nav__drawer" id="drawer">
-  <a href="#about" class="drawer-link">About</a>
-  <a href="#programs" class="drawer-link">Programs</a>
-  <a href="#cohort" class="drawer-link">The Cohort</a>
-  <a href="#contact" class="drawer-link">Contact</a>
-</div>
-
 <!-- HERO -->
-<section class="hero">
-  <!-- Geometric floating shapes (background decorations) -->
-  <div class="hero__shapes" aria-hidden="true">
-    <div class="shape shape--c1"></div>
-    <div class="shape shape--c2"></div>
-    <div class="shape shape--c3"></div>
-    <div class="shape shape--sq1"></div>
-    <div class="shape shape--dot"></div>
-  </div>
-
-  <div class="hero__left">
-    <div class="hero__ticker">
-      <span class="hero__ticker-live"></span>
-      Now accepting campus partners 2026 cohort
-    </div>
-    <h1 class="hero__headline reveal">
-      The future of<br><span class="accent">student financial</span><br>discipline.
+<section class="hero" id="about">
+  <div class="hero-left">
+    <div class="hero-eyebrow">Now accepting school partners — 2026</div>
+    <h1 class="hero-h1">
+      Financial discipline<br>
+      for <em>PUC students.</em><br>
+      Finally.
     </h1>
-    <p class="hero__sub reveal rd1">
-      Real money habits for college students.<br>Not a lecture a system.
+    <p class="hero-sub">
+      12 years of school. Zero classes on money.<br>
+      <strong>Finverze fixes that</strong> — with a structured 7-day program delivered by a certified CA, designed for 11th and 12th grade students who are about to make their most expensive decisions.
     </p>
-    <div class="hero__actions reveal rd2">
-      <a href="#cohort" class="btn btn--violet btn--large">Explore The Cohort</a>
-      <a href="#contact" class="btn btn--ghost btn--large hero-ghost">Partner With Us</a>
+    <div class="hero-actions">
+      <a href="#cohort" class="btn btn-primary">Explore The Cohort</a>
+      <a href="#contact" class="btn btn-ghost">Partner With Us</a>
     </div>
   </div>
-
-  <div class="hero__right reveal rd2">
-    <div class="hero__panel">
-      <div class="hero__panel-label">The Finverze Cohort By the numbers</div>
-      <div class="hero__panel-stat">
-        <div class="hero__panel-stat-val">30 <span>seats / batch</span></div>
-        <div class="hero__panel-stat-label">Selective intake, every cohort</div>
+  <div class="hero-right">
+    <div class="hero-card-stack">
+      <div class="stat-card accent">
+        <div class="stat-card-label">Cohort format</div>
+        <div class="stat-card-value">7 Days</div>
+        <div class="stat-card-sub">Live classroom sessions. Not a one-day talk.</div>
       </div>
-      <div class="hero__panel-divider"></div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;">
-        <div>
-          <div style="font-size:1.6rem;font-weight:800;letter-spacing:-0.04em;color:var(--ink);">7<span style="font-size:0.9rem;color:var(--mid);font-weight:500;"> days</span></div>
-          <div style="font-size:0.75rem;color:var(--mid);margin-top:4px;">Cohort duration</div>
+      <div class="hero-card-grid">
+        <div class="stat-card">
+          <div class="stat-card-label">Delivered by</div>
+          <div class="stat-card-value" style="font-size:1.6rem">CA / CFA</div>
+          <div class="stat-card-sub">Certified professional</div>
         </div>
-        <div>
-          <div style="font-size:1.6rem;font-weight:800;letter-spacing:-0.04em;color:var(--ink);">Live</div>
-          <div style="font-size:0.75rem;color:var(--mid);margin-top:4px;">Session format</div>
+        <div class="stat-card gold-card">
+          <div class="stat-card-label">Target students</div>
+          <div class="stat-card-value" style="font-size:1.4rem">PUC 1 & 2</div>
+          <div class="stat-card-sub">11th & 12th grade</div>
         </div>
-      </div>
-      <div class="hero__panel-divider"></div>
-      <div class="hero__panel-quote">
-        <p>Schools teach formulas. Nobody teaches money.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- MARQUEE -->
-<div class="marquee-strip" aria-hidden="true">
-  <div class="marquee-track">
-    <span class="marquee-item">Financial Awareness</span>
-    <span class="marquee-item">Habit Building</span>
-    <span class="marquee-item">The Finverze Cohort</span>
-    <span class="marquee-item">Campus Programs</span>
-    <span class="marquee-item">Student Transformation</span>
-    <span class="marquee-item">Money Discipline</span>
-    <span class="marquee-item">Finverze Advanced</span>
-    <span class="marquee-item">Financial Awareness</span>
-    <span class="marquee-item">Habit Building</span>
-    <span class="marquee-item">The Finverze Cohort</span>
-    <span class="marquee-item">Campus Programs</span>
-    <span class="marquee-item">Student Transformation</span>
-    <span class="marquee-item">Money Discipline</span>
-    <span class="marquee-item">Finverze Advanced</span>
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-track">
+    <span class="ticker-item">Financial Discipline <span>✦</span></span>
+    <span class="ticker-item">Delivered by a Certified CA <span>✦</span></span>
+    <span class="ticker-item">PUC 1 & PUC 2 <span>✦</span></span>
+    <span class="ticker-item">7-Day Cohort <span>✦</span></span>
+    <span class="ticker-item">Real Habit Change <span>✦</span></span>
+    <span class="ticker-item">Bengaluru Schools <span>✦</span></span>
+    <span class="ticker-item">Not a Lecture. A System. <span>✦</span></span>
+    <span class="ticker-item">Financial Discipline <span>✦</span></span>
+    <span class="ticker-item">Delivered by a Certified CA <span>✦</span></span>
+    <span class="ticker-item">PUC 1 & PUC 2 <span>✦</span></span>
+    <span class="ticker-item">7-Day Cohort <span>✦</span></span>
+    <span class="ticker-item">Real Habit Change <span>✦</span></span>
+    <span class="ticker-item">Bengaluru Schools <span>✦</span></span>
+    <span class="ticker-item">Not a Lecture. A System. <span>✦</span></span>
   </div>
 </div>
 
-<!-- THE PROBLEM -->
-<section class="problem" id="about">
-  <div class="container">
-    <div class="problem__grid">
-      <div class="problem__left reveal">
-        <div class="problem__eyebrow">The Problem</div>
-        <div class="problem__statement">
-          12 years of school.<br>
-          <em>Zero classes on money.</em>
-        </div>
-        <p class="problem__note">
-          Every student will deal with money for life. Yet no school teaches it. Finverze fixes that.
-        </p>
-      </div>
-      <div class="problem__right reveal rd2">
-        <div class="problem__cards">
-          <div class="problem__card">
-            <div class="problem__card-icon">📚</div>
-            <div>
-              <div class="problem__card-title">12 years of school</div>
-              <div class="problem__card-desc">Trigonometry, yes. How a bank account works? Never covered.</div>
-            </div>
-          </div>
-          <div class="problem__card">
-            <div class="problem__card-icon">💸</div>
-            <div>
-              <div class="problem__card-title">First salary, zero plan</div>
-              <div class="problem__card-desc">Graduates get paid. Nobody taught them what to do next.</div>
-            </div>
-          </div>
-          <div class="problem__card">
-            <div class="problem__card-icon">🔄</div>
-            <div>
-              <div class="problem__card-title">One workshop isn't enough</div>
-              <div class="problem__card-desc">Awareness doesn't build habits. Structure and repetition does.</div>
-            </div>
-          </div>
-        </div>
-      </div>
+<!-- PROBLEM -->
+<section class="problem" id="problem">
+  <div class="section-eyebrow">The problem</div>
+  <h2 class="section-h2">Schools teach formulas.<br><em>Nobody teaches money.</em></h2>
+  <p class="section-lead">Your students will manage salaries, loans, investments, and taxes within 5 years of leaving your school. None of that is in the curriculum.</p>
+
+  <div class="problem-grid reveal">
+    <div class="problem-card">
+      <div class="problem-num">01</div>
+      <div class="problem-title">12 years of school. Zero finance classes.</div>
+      <div class="problem-desc">Trigonometry, thermodynamics, the French Revolution — all covered. How a bank account actually grows your money? Never mentioned.</div>
+    </div>
+    <div class="problem-card">
+      <div class="problem-num">02</div>
+      <div class="problem-title">First salary arrives. Nobody prepared them.</div>
+      <div class="problem-desc">Students graduate, start earning, and immediately repeat the financial patterns of adults who also never learned — spend first, save whatever's left, which is usually nothing.</div>
+    </div>
+    <div class="problem-card">
+      <div class="problem-num">03</div>
+      <div class="problem-title">A one-day talk doesn't change behaviour.</div>
+      <div class="problem-desc">Awareness is not enough. A student who attends a 60-minute workshop forgets 70% of it within 48 hours. Real change requires structure, repetition, and accountability over time.</div>
+    </div>
+    <div class="problem-card">
+      <div class="problem-num">04</div>
+      <div class="problem-title">PUC is the last window before real money decisions.</div>
+      <div class="problem-desc">After PUC, students pick courses, take education loans, and start spending independently. The habits formed now — good or bad — follow them for decades. This is the right moment.</div>
     </div>
   </div>
 </section>
 
-<div class="divider container"></div>
+<!-- PROGRAMS -->
+<section id="programs">
+  <div class="section-eyebrow">Programs</div>
+  <h2 class="section-h2">Three touchpoints.<br><em>One transformation.</em></h2>
+  <p class="section-lead">Every school partnership starts with a free awareness session. The Cohort is where the real work happens.</p>
 
-<!-- PROGRAMS / JOURNEY -->
-<section class="journey" id="programs">
-  <div class="container">
+  <div class="programs-layout">
+    <div class="programs-sticky reveal">
+      <p style="font-size:0.85rem;color:var(--muted);line-height:1.7;margin-bottom:1.5rem">Every program builds on the last. Schools start with a free awareness session — then move into The Cohort when students and management are ready.</p>
+      <a href="#contact" class="btn btn-primary" style="display:inline-block">Talk to us →</a>
+    </div>
+
     <div class="reveal">
-      <p class="section__eyebrow">The Journey</p>
-      <h2 class="section__heading">3 touchpoints.<br><em>One transformation.</em></h2>
-    </div>
-    <div class="journey__stages">
-
-      <div class="stage reveal rd1">
-        <div class="stage__tag">Every Campus</div>
-        <div class="stage__icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#71717a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
-          </svg>
+      <div class="program-item">
+        <div class="program-num">00</div>
+        <div class="program-body">
+          <span class="program-tag tag-free">Included free</span>
+          <div class="program-title">Awareness Session</div>
+          <div class="program-desc">A high-energy 60-minute session run by the Finverze founder — no fee, no conditions. Designed to make students feel that money is the most important skill nobody taught them. Ends with students asking to continue. This is your school's entry point.</div>
+          <div class="program-details">
+            <div class="program-detail"><strong>60 minutes</strong>Duration</div>
+            <div class="program-detail"><strong>You</strong>Delivered by</div>
+            <div class="program-detail"><strong>Full class</strong>Audience</div>
+          </div>
         </div>
-        <div class="stage__duration">1 Day · Included</div>
-        <div class="stage__name">Awareness Session</div>
-        <p class="stage__desc">An on-campus workshop that shifts how students think about money. Included with every partnership.</p>
-        <div style="display:inline-flex;align-items:center;gap:6px;margin-top:16px;font-size:0.68rem;font-weight:700;letter-spacing:0.08em;color:var(--mid);background:var(--paper);border-radius:100px;padding:5px 14px;border:1px solid var(--rule);">✦ Standard for all partners</div>
-      </div>
-
-      <div class="stage stage--featured reveal rd2">
-        <div class="stage__tag">Program 01</div>
-        <div class="stage__icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
-          </svg>
-        </div>
-        <div class="stage__duration">7 Days</div>
-        <div class="stage__name">The Finverze Cohort</div>
-        <p class="stage__desc">Selective. Intensive. 30 students per batch. Built for real behavior change, not just awareness.</p>
-        <div class="stage__badge">
-          <span class="stage__badge-dot"></span> Selective Intake
+        <div class="program-price">
+          <div class="program-price-val">Free</div>
+          <div class="program-price-note">always</div>
         </div>
       </div>
 
-      <div class="stage reveal rd3">
-        <div class="stage__tag">Program 02</div>
-        <div class="stage__icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#71717a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/>
-          </svg>
+      <div class="program-item">
+        <div class="program-num">01</div>
+        <div class="program-body">
+          <span class="program-tag tag-core">Core program</span>
+          <div class="program-title">The Finverze Cohort</div>
+          <div class="program-desc">7 consecutive school days. 60 minutes per day. Delivered by a certified CA in your classroom, using Finverze's structured curriculum. Students build real financial habits — not just awareness. Ends with a personal money blueprint and completion certificate every student keeps.</div>
+          <div class="program-details">
+            <div class="program-detail"><strong>7 days</strong>Duration</div>
+            <div class="program-detail"><strong>Certified CA</strong>Delivered by</div>
+            <div class="program-detail"><strong>Up to 60</strong>Students</div>
+            <div class="program-detail"><strong>Certificate</strong>On completion</div>
+          </div>
         </div>
-        <div class="stage__duration">14 Days</div>
-        <div class="stage__name">Finverze Advanced</div>
-        <p class="stage__desc">For Cohort graduates ready to go deeper. Advanced frameworks, real-world systems, lasting habits.</p>
+        <div class="program-price">
+          <div class="program-price-val">₹12k–18k</div>
+          <div class="program-price-note">per cohort</div>
+        </div>
       </div>
 
+      <div class="program-item">
+        <div class="program-num">02</div>
+        <div class="program-body">
+          <span class="program-tag tag-adv">Advanced</span>
+          <div class="program-title">Finverze Advanced</div>
+          <div class="program-desc">For schools where The Cohort created visible change and students want to go deeper. 14 days covering investing basics, CIBIL score, goal-based financial planning, and entrepreneurship mindset. Includes a personal money scorecard per student and a parent-facing impact report for the school.</div>
+          <div class="program-details">
+            <div class="program-detail"><strong>14 days</strong>Duration</div>
+            <div class="program-detail"><strong>Certified CA</strong>Delivered by</div>
+            <div class="program-detail"><strong>Cohort grads</strong>Audience</div>
+            <div class="program-detail"><strong>Impact report</strong>Included</div>
+          </div>
+        </div>
+        <div class="program-price">
+          <div class="program-price-val">₹25k–40k</div>
+          <div class="program-price-note">per cohort</div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- THE COHORT DEEP DIVE -->
+<!-- COHORT -->
 <section class="cohort" id="cohort">
-  <div class="container">
-    <div class="cohort__inner">
-      <div class="cohort__left">
-        <div class="cohort__eyebrow reveal">The Finverze Cohort</div>
-        <h2 class="cohort__heading reveal rd1">Not a course.<br><em>A selection.</em></h2>
-        <p class="cohort__body reveal rd2">
-          30 seats. Curated intake. Built for students who are ready to commit.
-        </p>
-        <div class="cohort__features reveal rd3">
-          <div class="cohort__feature">
-            <div class="cohort__feature-mark">
-              <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-            </div>
-            <div>
-              <div class="cohort__feature-title">Structured Curriculum</div>
-              <div class="cohort__feature-desc">7 days. Every session builds on the last.</div>
-            </div>
+  <div class="section-eyebrow">The Finverze Cohort</div>
+  <h2 class="section-h2">Not a course.<br><em>A structured experience.</em></h2>
+  <p class="section-lead">7 days. Every session builds on the last. Delivered by a certified CA using Finverze's curriculum — built specifically for PUC students.</p>
+
+  <div class="cohort-layout">
+    <div class="reveal">
+      <div class="day-list">
+        <div class="day-item">
+          <div class="day-dot active">1</div>
+          <div class="day-body">
+            <div class="day-title">See Your Money</div>
+            <div class="day-desc">Personal cash flow audit. Students map every rupee in and out — many for the first time. CA leads the session live.</div>
           </div>
-          <div class="cohort__feature">
-            <div class="cohort__feature-mark">
-              <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-            </div>
-            <div>
-              <div class="cohort__feature-title">Peer Accountability</div>
-              <div class="cohort__feature-desc">30 students. One standard. No learning alone.</div>
-            </div>
+        </div>
+        <div class="day-item">
+          <div class="day-dot">2</div>
+          <div class="day-body">
+            <div class="day-title">Needs, Wants & The Money Drain</div>
+            <div class="day-desc">Sort every spend. Learn the 50/30/20 rule adapted for student life. Calculate where your money actually goes.</div>
           </div>
-          <div class="cohort__feature">
-            <div class="cohort__feature-mark">
-              <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
-            </div>
-            <div>
-              <div class="cohort__feature-title">Habit Architecture</div>
-              <div class="cohort__feature-desc">Systems built to outlast the program.</div>
-            </div>
+        </div>
+        <div class="day-item">
+          <div class="day-dot">3</div>
+          <div class="day-body">
+            <div class="day-title">The Power of Not Spending</div>
+            <div class="day-desc">The 24-hour pause rule. Impulse mapping. The no-spend challenge — the hardest day, and the most transformative.</div>
+          </div>
+        </div>
+        <div class="day-item">
+          <div class="day-dot">4</div>
+          <div class="day-body">
+            <div class="day-title">Your First Savings Goal</div>
+            <div class="day-desc">Goal-based saving vs saving "whatever's left." Students set a specific target, calculate the monthly amount, and sign a commitment.</div>
+          </div>
+        </div>
+        <div class="day-item">
+          <div class="day-dot">5</div>
+          <div class="day-body">
+            <div class="day-title">How Money Grows</div>
+            <div class="day-desc">Compound interest with real numbers. Savings account vs mutual fund SIP. Students calculate their own 20-year scenarios.</div>
+          </div>
+        </div>
+        <div class="day-item">
+          <div class="day-dot">6</div>
+          <div class="day-body">
+            <div class="day-title">Money Myths & The Real World</div>
+            <div class="day-desc">Five myths busted by a CA with evidence. Investing, credit cards, savings accounts — all demystified with facts.</div>
+          </div>
+        </div>
+        <div class="day-item">
+          <div class="day-dot active">7</div>
+          <div class="day-body">
+            <div class="day-title">Your Personal Money Blueprint</div>
+            <div class="day-desc">Students build a one-page signed financial plan. Certificate ceremony. The document they take home and keep.</div>
           </div>
         </div>
       </div>
-      <div class="reveal rd2">
-        <div class="cohort__card">
-          <div class="cohort__card-top">
-            <span class="cohort__card-logo">Finverze Cohort</span>
-            <span class="cohort__card-badge">Applications Open</span>
-          </div>
-          <div class="cohort__stats">
-            <div class="cohort__stat">
-              <div class="cohort__stat-val">7</div>
-              <div class="cohort__stat-label">Days duration</div>
-            </div>
-            <div class="cohort__stat">
-              <div class="cohort__stat-val">Live</div>
-              <div class="cohort__stat-label">Session format</div>
-            </div>
-            <div class="cohort__stat">
-              <div class="cohort__stat-val">30</div>
-              <div class="cohort__stat-label">Students per batch</div>
-            </div>
-            <div class="cohort__stat">
-              <div class="cohort__stat-val">100%</div>
-              <div class="cohort__stat-label">Habit-focused</div>
-            </div>
-          </div>
-          <div class="cohort__card-divider"></div>
-          <button class="cohort__cta-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Apply for the Cohort →</button>
-          <p class="cohort__cta-note">Limited seats. Applications reviewed individually.</p>
+    </div>
+
+    <div class="reveal">
+      <div class="expert-card">
+        <div class="expert-card-label">Who delivers this</div>
+        <div class="expert-card-title">A certified CA or CFA.<br>Not a trainer. A professional.</div>
+        <div class="expert-card-desc">Every Finverze Cohort is delivered by a Chartered Accountant or CFA — a credentialed professional who works with money every day. Your students aren't learning from a motivational speaker. They're learning from someone who does this for a living.</div>
+      </div>
+
+      <div class="expert-card">
+        <div class="expert-card-label">Why this matters to your school</div>
+        <div class="credential-row">
+          <div class="credential-icon"></div>
+          <div class="credential-text">Students leave with a signed personal money blueprint — a document, not just a memory</div>
+        </div>
+        <div class="credential-row">
+          <div class="credential-icon"></div>
+          <div class="credential-text">Completion certificates your school can communicate to parents and in annual reports</div>
+        </div>
+        <div class="credential-row">
+          <div class="credential-icon"></div>
+          <div class="credential-text">Pre and post habit tracking data — measurable student engagement over 7 days</div>
+        </div>
+        <div class="credential-row">
+          <div class="credential-icon"></div>
+          <div class="credential-text">No extra work for teachers — Finverze handles all content, delivery, and materials</div>
+        </div>
+        <div class="credential-row">
+          <div class="credential-icon"></div>
+          <div class="credential-text">Runs within your existing timetable — 60 minutes per day for 7 school days</div>
         </div>
       </div>
+
+      <a href="#contact" class="btn btn-gold" style="display:inline-block;margin-top:1rem;padding:0.875rem 2rem;font-size:0.875rem">Bring this to your school →</a>
     </div>
   </div>
 </section>
 
 <!-- OUTCOMES -->
-<section class="outcomes" id="outcomes">
-  <div class="container">
-    <div class="reveal">
-      <p class="section__eyebrow">Student Outcomes</p>
-      <h2 class="section__heading">What students<br><em>walk away with</em></h2>
+<section id="outcomes">
+  <div class="section-eyebrow">Student outcomes</div>
+  <h2 class="section-h2">What students<br><em>walk away with.</em></h2>
+  <p class="section-lead">Not motivation that fades. Systems that stick. Every outcome below is built directly into the 7-day curriculum.</p>
+
+  <div class="outcomes-grid reveal">
+    <div class="outcome-item">
+      <div class="outcome-num">01</div>
+      <div class="outcome-title">Spending awareness</div>
+      <div class="outcome-desc">They know exactly where their money goes. For the first time, they have data — not a feeling.</div>
     </div>
-    <div class="outcomes__grid">
-      <div class="outcome__cell reveal">
-        <div class="outcome__num">01</div>
-        <div class="outcome__label">Spending Awareness</div>
-        <p class="outcome__desc">They know where their money goes and change it.</p>
-      </div>
-      <div class="outcome__cell reveal rd1">
-        <div class="outcome__num">02</div>
-        <div class="outcome__label">Saving Discipline</div>
-        <p class="outcome__desc">A habit that survives peer pressure and real life.</p>
-      </div>
-      <div class="outcome__cell reveal rd2">
-        <div class="outcome__num">03</div>
-        <div class="outcome__label">Smarter Decisions</div>
-        <p class="outcome__desc">A mental model for money that lasts decades.</p>
-      </div>
-      <div class="outcome__cell reveal">
-        <div class="outcome__num">04</div>
-        <div class="outcome__label">Real Confidence</div>
-        <p class="outcome__desc">No more avoiding money conversations.</p>
-      </div>
-      <div class="outcome__cell reveal rd1">
-        <div class="outcome__num">05</div>
-        <div class="outcome__label">Financial Identity</div>
-        <p class="outcome__desc">They see themselves as someone in control.</p>
-      </div>
-      <div class="outcome__cell reveal rd2">
-        <div class="outcome__num">06</div>
-        <div class="outcome__label">Long-Term Mindset</div>
-        <p class="outcome__desc">Building a life by design, not by default.</p>
-      </div>
+    <div class="outcome-item">
+      <div class="outcome-num">02</div>
+      <div class="outcome-title">A real savings habit</div>
+      <div class="outcome-desc">Not "I should save more." A specific goal, a monthly number, a commitment they signed.</div>
+    </div>
+    <div class="outcome-item">
+      <div class="outcome-num">03</div>
+      <div class="outcome-title">Compound interest, understood</div>
+      <div class="outcome-desc">They've calculated their own 20-year scenario. Starting at 17 vs 25 is not abstract — it's their number.</div>
+    </div>
+    <div class="outcome-item">
+      <div class="outcome-num">04</div>
+      <div class="outcome-title">Myths debunked</div>
+      <div class="outcome-desc">Investing is not just for the rich. Credit cards are not evil. Savings accounts are not safe. They know why now.</div>
+    </div>
+    <div class="outcome-item">
+      <div class="outcome-num">05</div>
+      <div class="outcome-title">A personal money blueprint</div>
+      <div class="outcome-desc">A signed, one-page financial plan they keep. Income, budget, savings target, first goal, one habit. Real and theirs.</div>
+    </div>
+    <div class="outcome-item">
+      <div class="outcome-num">06</div>
+      <div class="outcome-title">Financial identity</div>
+      <div class="outcome-desc">They leave seeing themselves as someone who is in control of money — not someone who will "figure it out later."</div>
     </div>
   </div>
 </section>
 
-<!-- PROCESS -->
-<section class="process section--paper" id="process">
-  <div class="container">
-    <div class="reveal">
-      <p class="section__eyebrow">For Campus Partners</p>
-      <h2 class="section__heading">Simple to start.<br><em>Powerful to experience.</em></h2>
+<!-- HOW IT WORKS -->
+<section class="how" id="how">
+  <div class="section-eyebrow">For schools</div>
+  <h2 class="section-h2">Simple to start.<br><em>Powerful to experience.</em></h2>
+  <p class="section-lead">One conversation is all it takes to bring Finverze to your school. We handle everything from there.</p>
+
+  <div class="how-steps reveal">
+    <div class="how-step">
+      <div class="how-step-tag">Step 01</div>
+      <div class="how-step-num">01</div>
+      <div class="how-step-title">One conversation with us</div>
+      <div class="how-step-desc">We listen first. Tell us about your school, your students, and your timeline. We answer every question. No templates, no pressure.</div>
     </div>
-    <div class="process__steps">
-      <div class="process__step reveal">
-        <div class="process__step-num">01 Consult</div>
-        <div class="process__step-title">We listen first</div>
-        <p class="process__step-body">One conversation about your campus and students. No templates.</p>
-      </div>
-      <div class="process__step reveal rd1">
-        <div class="process__step-num">02 Plan</div>
-        <div class="process__step-title">We design the program</div>
-        <p class="process__step-body">Timeline, format, and delivery all tailored to your schedule.</p>
-      </div>
-      <div class="process__step reveal rd2">
-        <div class="process__step-num">03 Deliver</div>
-        <div class="process__step-title">Live on campus</div>
-        <p class="process__step-body">Engaging sessions built for Gen Z. Not a lecture an experience.</p>
-      </div>
-      <div class="process__step reveal rd3">
-        <div class="process__step-num">04 Build</div>
-        <div class="process__step-title">Habits that stick</div>
-        <p class="process__step-body">Students leave with systems that outlast the program.</p>
-      </div>
+    <div class="how-step">
+      <div class="how-step-tag">Step 02</div>
+      <div class="how-step-num">02</div>
+      <div class="how-step-title">Free awareness session</div>
+      <div class="how-step-desc">The Finverze founder visits your school. 60 minutes with your PUC batch — free, no conditions. You'll see the student reaction for yourself.</div>
+    </div>
+    <div class="how-step">
+      <div class="how-step-tag">Step 03</div>
+      <div class="how-step-num">03</div>
+      <div class="how-step-title">Book The Cohort</div>
+      <div class="how-step-desc">If you want to go further, we schedule The Cohort. We send you the program agreement, the CA's credentials, and the full 7-day curriculum in advance.</div>
+    </div>
+    <div class="how-step">
+      <div class="how-step-tag">Step 04</div>
+      <div class="how-step-num">04</div>
+      <div class="how-step-title">Students transform</div>
+      <div class="how-step-desc">7 days. 60 minutes per day. No extra work for your teachers. Students leave with certificates, a money blueprint, and habits that last.</div>
     </div>
   </div>
 </section>
 
 <!-- WHY FINVERZE -->
-<section class="reasons" id="why">
-  <div class="container">
-    <div class="reveal">
-      <p class="section__eyebrow">Why Finverze</p>
-      <h2 class="section__heading">Built different.<br><em>By design.</em></h2>
+<section id="why">
+  <div class="section-eyebrow">Why Finverze</div>
+  <h2 class="section-h2">Built different.<br><em>By design.</em></h2>
+  <p class="section-lead">Every other financial literacy initiative gives students awareness. Finverze gives them a 7-day lived experience of managing money differently.</p>
+
+  <div class="why-grid reveal">
+    <div class="why-card">
+      <div>
+        <div class="why-num">The difference</div>
+        <div class="why-title">Habit first. Knowledge second.</div>
+        <div class="why-desc" style="color:rgba(245,243,238,0.5)">Students don't just hear about budgeting — they build one with their own money in the room. They don't just learn about compound interest — they calculate their own 20-year scenario. Every session ends with something they do, not something they remember.</div>
+      </div>
+      <div>
+        <div class="why-num">The credibility</div>
+        <div class="why-title">A real CA. Not a youth trainer.</div>
+        <div class="why-desc" style="color:rgba(245,243,238,0.5)">The Cohort is delivered by a Chartered Accountant who works with finance every day. This changes how students listen. It changes how parents respond. It changes what your school can claim in its communications.</div>
+      </div>
     </div>
-    <div class="reasons__list">
-      <div class="reasons__item reveal">
-        <span class="reasons__item-num">01</span>
-        <div class="reasons__item-title">Not a lecture. A system.</div>
-        <p class="reasons__item-body">We build behavior, not just awareness. Students feel the difference immediately.</p>
-      </div>
-      <div class="reasons__item reveal rd1">
-        <span class="reasons__item-num">02</span>
-        <div class="reasons__item-title">Student-first, not syllabus-first.</div>
-        <p class="reasons__item-body">Real money challenges students face today not textbook theory.</p>
-      </div>
-      <div class="reasons__item reveal">
-        <span class="reasons__item-num">03</span>
-        <div class="reasons__item-title">Flexible for your campus.</div>
-        <p class="reasons__item-body">1-day session or 7-day cohort we work around your schedule.</p>
-      </div>
-      <div class="reasons__item reveal rd1">
-        <span class="reasons__item-num">04</span>
-        <div class="reasons__item-title">Adds real value beyond academics.</div>
-        <p class="reasons__item-body">Tells your students: we care about your whole life, not just your GPA.</p>
-      </div>
-      <div class="reasons__item reveal">
-        <span class="reasons__item-num">05</span>
-        <div class="reasons__item-title">Premium experience, campus scale.</div>
-        <p class="reasons__item-body">Exclusive quality. Institution-wide reach. That's real cultural change.</p>
-      </div>
+    <div class="why-card">
+      <div class="why-num">Specifically for PUC</div>
+      <div class="why-title">Every example uses student life.</div>
+      <div class="why-desc">Not "imagine you earn ₹1 lakh a month." Every scenario, every number, every activity in the workbook is built around pocket money, canteen spending, coaching fees, and the real financial decisions PUC students actually face.</div>
+    </div>
+    <div class="why-card">
+      <div class="why-num">For your school</div>
+      <div class="why-title">Certificates and data you can show.</div>
+      <div class="why-desc">Every student gets a Finverze Cohort certificate. You get a completion report. This is something your school can communicate to parents, in newsletters, and in management presentations — not just a workshop that happened.</div>
+    </div>
+    <div class="why-card">
+      <div class="why-num">Zero extra work</div>
+      <div class="why-title">Finverze handles everything.</div>
+      <div class="why-desc">Slides, workbooks, activities, CA scheduling, session delivery, certificate printing — all Finverze. You provide a room and 60 minutes of timetable per day for 7 days. That's it.</div>
+    </div>
+    <div class="why-card">
+      <div class="why-num">The right age</div>
+      <div class="why-title">PUC is the last window.</div>
+      <div class="why-desc">After PUC, students take education loans, choose colleges based on fees, start spending independently. The habits built at 17 follow them to 37. Finverze reaches them before the expensive mistakes start — not after.</div>
     </div>
   </div>
 </section>
 
 <!-- CONTACT -->
-<section class="book" id="contact">
-  <div class="container">
-    <div class="book__inner">
-      <div class="book__left">
-        <p class="section__eyebrow reveal">Get Started</p>
-        <h2 class="book__heading reveal rd1">Bring Finverze<br>to your campus.</h2>
-        <p class="book__subhead reveal rd2">We'll get back to you within 24 hours.</p>
-        <div class="book__contact reveal rd3">
-          <a href="mailto:founder@finverze.com">founder@finverze.com</a>
-        </div>
+<section class="contact" id="contact">
+  <div class="section-eyebrow">Get started</div>
+  <h2 class="section-h2">Bring Finverze<br><em>to your school.</em></h2>
+
+  <div class="contact-layout">
+    <div class="contact-info reveal">
+      <p style="font-size:0.95rem;color:rgba(245,243,238,0.5);line-height:1.75;margin-bottom:2.5rem">We reply within 24 hours. The first step is always a conversation — no commitment, no templates. Just tell us about your school and we'll take it from there.</p>
+
+      <div class="contact-detail">
+        <div class="contact-detail-label">Email</div>
+        <div class="contact-detail-val"><a href="mailto:founder@finverze.com">founder@finverze.com</a></div>
       </div>
-      <div class="reveal rd2">
-        <div class="form">
-          <form id="bookForm">
-            <div class="form__row">
-              <div class="form__group">
-                <label class="form__label" for="college">College Name</label>
-                <input class="form__input" type="text" id="college" name="college" placeholder="e.g. Delhi University" required>
-              </div>
-              <div class="form__group">
-                <label class="form__label" for="contact-name">Contact Person</label>
-                <input class="form__input" type="text" id="contact-name" name="contact" placeholder="Your full name" required>
-              </div>
-            </div>
-            <div class="form__row">
-              <div class="form__group">
-                <label class="form__label" for="email">Email</label>
-                <input class="form__input" type="email" id="email" name="email" placeholder="you@college.edu" required>
-              </div>
-              <div class="form__group">
-                <label class="form__label" for="phone">Phone</label>
-                <input class="form__input" type="tel" id="phone" name="phone" placeholder="+91 XXXXX XXXXX" required>
-              </div>
-            </div>
-            <div class="form__group">
-              <label class="form__label" for="program">Which program are you interested in?</label>
-              <select class="form__select" id="program" name="program" required>
-                <option value="" disabled selected>Select a program</option>
-                <option>The Finverze Cohort (7-day)</option>
-                <option>Finverze Advanced (14-day)</option>
-              </select>
-              <div style="font-size:0.74rem;color:var(--soft);margin-top:6px;">
-                ✦ Awareness Session included with all partnerships.
-              </div>
-            </div>
-            <button type="submit" class="form__submit">Book a Session →</button>
-            <div class="form__success" id="formSuccess">
-              Request received. Expect a reply within 24 hours.
-            </div>
-          </form>
-        </div>
+      <div class="contact-detail">
+        <div class="contact-detail-label">Location</div>
+        <div class="contact-detail-val">Bengaluru, Karnataka</div>
+      </div>
+      <div class="contact-detail">
+        <div class="contact-detail-label">Target schools</div>
+        <div class="contact-detail-val">11th & 12th grade · PUC 1 & PUC 2</div>
+      </div>
+      <div class="contact-detail">
+        <div class="contact-detail-label">Response time</div>
+        <div class="contact-detail-val">Within 24 hours</div>
+      </div>
+      <div class="contact-detail">
+        <div class="contact-detail-label">First step</div>
+        <div class="contact-detail-val">Free awareness session — no commitment</div>
       </div>
     </div>
-  </div>
-</section>
 
-<!-- CTA BANNER -->
-<section class="cta-banner">
-  <div class="container">
-    <h2 class="cta-banner__heading reveal">
-      The financial generation<br><em>starts at your campus.</em>
-    </h2>
-    <p class="cta-banner__sub reveal rd1">One conversation. That's all it takes.</p>
-    <div class="cta-banner__actions reveal rd2">
-      <a href="#contact" class="btn btn--violet btn--large">Schedule a Discussion</a>
-      <a href="mailto:founder@finverze.com" class="btn btn--ghost btn--large" style="color:rgba(255,255,255,0.7);border-color:rgba(255,255,255,0.15);">founder@finverze.com</a>
+    <div class="contact-form reveal">
+      <div class="form-title">Start the conversation</div>
+      <div class="form-sub">Tell us about your school. We'll get back within 24 hours.</div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">School name</label>
+          <input class="form-input" type="text" placeholder="Your school's name">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Your name</label>
+          <input class="form-input" type="text" placeholder="Principal / coordinator">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input class="form-input" type="email" placeholder="your@school.edu.in">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Phone</label>
+          <input class="form-input" type="tel" placeholder="+91 ___________">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Which program are you interested in?</label>
+        <select class="form-select">
+          <option value="">Select a program</option>
+          <option>Free awareness session first — let's see how students respond</option>
+          <option>The Finverze Cohort (7-day, ₹12k–18k)</option>
+          <option>Finverze Advanced (14-day, ₹25k–40k)</option>
+          <option>Not sure yet — let's talk</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Approximate student count (PUC batch)</label>
+        <input class="form-input" type="text" placeholder="e.g. 60 students across 11th and 12th">
+      </div>
+
+      <button class="btn btn-gold" style="width:100%;padding:0.875rem;font-size:0.9rem;margin-top:0.5rem">Send →</button>
+
+      <div class="form-note">✦ Awareness session is always included free with every school partnership.</div>
     </div>
   </div>
 </section>
 
 <!-- FOOTER -->
-<footer class="footer">
-  <div class="container">
-    <div class="footer__inner">
-      <div>
-        <div class="footer__brand-name">Finverze</div>
-        <p class="footer__brand-desc">Financial discipline programs for students across India.</p>
-      </div>
-      <div>
-        <div class="footer__col-title">Navigation</div>
-        <div class="footer__links">
-          <a href="#about">About</a>
-          <a href="#cohort">The Cohort</a>
-          <a href="#programs">Programs</a>
-          <a href="#contact">Contact</a>
-        </div>
-      </div>
-      <div>
-        <div class="footer__col-title">Contact</div>
-        <div class="footer__links">
-          <a href="mailto:founder@finverze.com">founder@finverze.com</a>
-        </div>
-      </div>
-    </div>
-    <div class="footer__bottom">
-      <span>© 2026 Finverze. All rights reserved.</span>
-      <span>Financial discipline for the next generation.</span>
-    </div>
-  </div>
+<footer>
+  <div class="footer-logo">Finverze</div>
+  <ul class="footer-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#programs">Programs</a></li>
+    <li><a href="#cohort">The Cohort</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="footer-copy">© 2026 Finverze. Financial discipline for PUC students.</div>
 </footer>
 
 <script>
-// NAV SCROLL
-const nav = document.getElementById('nav');
-window.addEventListener('scroll', () => {
-  nav.classList.toggle('scrolled', window.scrollY > 24);
-}, { passive: true });
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => io.observe(el));
 
-// HAMBURGER
-const hamburger = document.getElementById('hamburger');
-const drawer = document.getElementById('drawer');
-hamburger.addEventListener('click', () => {
-  const open = drawer.classList.toggle('open');
-  hamburger.setAttribute('aria-expanded', open);
-  document.body.style.overflow = open ? 'hidden' : '';
-});
-document.querySelectorAll('.drawer-link').forEach(l => {
-  l.addEventListener('click', () => {
-    drawer.classList.remove('open');
-    document.body.style.overflow = '';
+  // Nav shrink on scroll
+  const nav = document.querySelector('nav');
+  window.addEventListener('scroll', () => {
+    nav.style.padding = window.scrollY > 60 ? '0.875rem 3rem' : '1.25rem 3rem';
   });
-});
-
-// SCROLL REVEAL
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(e => {
-    if (e.isIntersecting) { e.target.classList.add('in'); observer.unobserve(e.target); }
-  });
-}, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-// FORM
-document.getElementById('bookForm').addEventListener('submit', function(e) {
-  e.preventDefault();
-  const btn = this.querySelector('.form__submit');
-  btn.disabled = true;
-  btn.textContent = 'Sending...';
-  setTimeout(() => {
-    document.getElementById('formSuccess').style.display = 'block';
-    btn.style.display = 'none';
-    this.reset();
-  }, 1000);
-});
-
-// SMOOTH SCROLL
-document.querySelectorAll('a[href^="#"]').forEach(a => {
-  a.addEventListener('click', function(e) {
-    const target = document.querySelector(this.getAttribute('href'));
-    if (target) {
-      e.preventDefault();
-      const top = target.getBoundingClientRect().top + window.scrollY - 72;
-      window.scrollTo({ top, behavior: 'smooth' });
-    }
-  });
-});
 </script>
 </body>
 </html>
