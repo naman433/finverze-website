@@ -3,1566 +3,508 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Finverze — Financial Discipline for PUC Students</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<title>Finverze</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --ink: #0E0E12;
-    --ink-soft: #2A2A35;
-    --cream: #F5F3EE;
-    --cream-dark: #EAE7E0;
-    --purple: #534AB7;
-    --purple-light: #EEEDFE;
-    --purple-mid: #AFA9EC;
-    --gold: #C9A84C;
-    --gold-light: #F5EDD4;
-    --muted: #7A7880;
-    --border: rgba(14,14,18,0.1);
-    --border-strong: rgba(14,14,18,0.2);
-    --ff-display: 'Playfair Display', Georgia, serif;
-    --ff-body: 'DM Sans', sans-serif;
-    --ff-mono: 'DM Mono', monospace;
-  }
-
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    font-family: var(--ff-body);
-    background: var(--cream);
-    color: var(--ink);
-    line-height: 1.6;
-    overflow-x: hidden;
-  }
-
-  /* ── NOISE TEXTURE ── */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 9999;
-  }
-
-  /* ── NAV ── */
-  nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 100;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1.25rem 3rem;
-    background: rgba(245,243,238,0.88);
-    backdrop-filter: blur(12px);
-    border-bottom: 0.5px solid var(--border);
-    transition: all 0.3s;
-  }
-
-  .nav-logo {
-    font-family: var(--ff-display);
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: var(--ink);
-    letter-spacing: -0.02em;
-    text-decoration: none;
-  }
-
-  .nav-logo span {
-    color: var(--purple);
-  }
-
-  .nav-links {
-    display: flex;
-    gap: 2.5rem;
-    list-style: none;
-  }
-
-  .nav-links a {
-    font-size: 0.8rem;
-    font-weight: 500;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--muted);
-    text-decoration: none;
-    transition: color 0.2s;
-  }
-
-  .nav-links a:hover { color: var(--ink); }
-
-  .nav-cta {
-    display: flex;
-    gap: 0.75rem;
-    align-items: center;
-  }
-
-  .btn {
-    display: inline-block;
-    padding: 0.6rem 1.4rem;
-    font-family: var(--ff-body);
-    font-size: 0.8rem;
-    font-weight: 500;
-    letter-spacing: 0.04em;
-    text-decoration: none;
-    border-radius: 2px;
-    cursor: pointer;
-    transition: all 0.2s;
-    border: none;
-  }
-
-  .btn-ghost {
-    background: transparent;
-    color: var(--ink);
-    border: 0.5px solid var(--border-strong);
-  }
-
-  .btn-ghost:hover {
-    background: var(--ink);
-    color: var(--cream);
-    border-color: var(--ink);
-  }
-
-  .btn-primary {
-    background: var(--ink);
-    color: var(--cream);
-  }
-
-  .btn-primary:hover {
-    background: var(--purple);
-  }
-
-  .btn-gold {
-    background: var(--gold);
-    color: var(--ink);
-  }
-
-  .btn-gold:hover {
-    background: var(--ink);
-    color: var(--cream);
-  }
-
-  /* ── HERO ── */
-  .hero {
-    min-height: 100vh;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding-top: 5rem;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .hero-left {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 5rem 3rem 5rem 3rem;
-    position: relative;
-    z-index: 2;
-  }
-
-  .hero-eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-family: var(--ff-mono);
-    font-size: 0.7rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--purple);
-    margin-bottom: 2rem;
-    opacity: 0;
-    animation: fadeUp 0.8s 0.2s forwards;
-  }
-
-  .hero-eyebrow::before {
-    content: '';
-    display: inline-block;
-    width: 24px;
-    height: 1px;
-    background: var(--purple);
-  }
-
-  .hero-h1 {
-    font-family: var(--ff-display);
-    font-size: clamp(3rem, 5vw, 4.5rem);
-    font-weight: 500;
-    line-height: 1.08;
-    letter-spacing: -0.02em;
-    color: var(--ink);
-    margin-bottom: 1.5rem;
-    opacity: 0;
-    animation: fadeUp 0.8s 0.35s forwards;
-  }
-
-  .hero-h1 em {
-    font-style: italic;
-    color: var(--purple);
-  }
-
-  .hero-sub {
-    font-size: 1rem;
-    color: var(--muted);
-    line-height: 1.7;
-    max-width: 420px;
-    margin-bottom: 2.5rem;
-    opacity: 0;
-    animation: fadeUp 0.8s 0.5s forwards;
-  }
-
-  .hero-sub strong {
-    color: var(--ink);
-    font-weight: 500;
-  }
-
-  .hero-actions {
-    display: flex;
-    gap: 0.75rem;
-    flex-wrap: wrap;
-    opacity: 0;
-    animation: fadeUp 0.8s 0.65s forwards;
-  }
-
-  .hero-right {
-    background: var(--ink);
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .hero-right::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(ellipse at 30% 50%, #534AB720 0%, transparent 60%),
-                radial-gradient(ellipse at 80% 20%, #C9A84C15 0%, transparent 50%);
-  }
-
-  .hero-card-stack {
-    position: relative;
-    z-index: 2;
-    padding: 3rem;
-    width: 100%;
-    max-width: 420px;
-    opacity: 0;
-    animation: fadeUp 0.8s 0.8s forwards;
-  }
-
-  .stat-card {
-    background: rgba(255,255,255,0.05);
-    border: 0.5px solid rgba(255,255,255,0.1);
-    border-radius: 4px;
-    padding: 1.5rem;
-    margin-bottom: 1rem;
-  }
-
-  .stat-card-label {
-    font-size: 0.7rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: rgba(255,255,255,0.4);
-    font-family: var(--ff-mono);
-    margin-bottom: 0.5rem;
-  }
-
-  .stat-card-value {
-    font-family: var(--ff-display);
-    font-size: 2.5rem;
-    font-weight: 500;
-    color: var(--cream);
-    line-height: 1;
-  }
-
-  .stat-card-sub {
-    font-size: 0.8rem;
-    color: rgba(255,255,255,0.4);
-    margin-top: 0.35rem;
-  }
-
-  .stat-card.accent {
-    background: var(--purple);
-    border-color: transparent;
-  }
-
-  .stat-card.accent .stat-card-label { color: rgba(255,255,255,0.6); }
-  .stat-card.accent .stat-card-value { color: white; }
-  .stat-card.accent .stat-card-sub { color: rgba(255,255,255,0.7); }
-
-  .stat-card.gold-card {
-    background: var(--gold);
-    border-color: transparent;
-  }
-
-  .stat-card.gold-card .stat-card-label { color: rgba(14,14,18,0.6); }
-  .stat-card.gold-card .stat-card-value { color: var(--ink); }
-  .stat-card.gold-card .stat-card-sub { color: rgba(14,14,18,0.6); }
-
-  .hero-card-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-  }
-
-  /* ── TICKER ── */
-  .ticker {
-    background: var(--ink);
-    padding: 0.75rem 0;
-    overflow: hidden;
-    position: relative;
-  }
-
-  .ticker-track {
-    display: flex;
-    gap: 0;
-    animation: ticker 20s linear infinite;
-    white-space: nowrap;
-  }
-
-  .ticker-item {
-    display: inline-flex;
-    align-items: center;
-    gap: 2rem;
-    padding: 0 2rem;
-    font-family: var(--ff-mono);
-    font-size: 0.7rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: rgba(255,255,255,0.4);
-  }
-
-  .ticker-item span {
-    color: var(--gold);
-  }
-
-  @keyframes ticker {
-    from { transform: translateX(0); }
-    to { transform: translateX(-50%); }
-  }
-
-  /* ── SECTIONS ── */
-  section {
-    padding: 7rem 3rem;
-  }
-
-  .section-eyebrow {
-    font-family: var(--ff-mono);
-    font-size: 0.7rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--purple);
-    margin-bottom: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-
-  .section-eyebrow::before {
-    content: '';
-    display: inline-block;
-    width: 20px;
-    height: 1px;
-    background: var(--purple);
-  }
-
-  .section-h2 {
-    font-family: var(--ff-display);
-    font-size: clamp(2.2rem, 4vw, 3.5rem);
-    font-weight: 500;
-    line-height: 1.1;
-    letter-spacing: -0.02em;
-    color: var(--ink);
-    margin-bottom: 1.25rem;
-  }
-
-  .section-h2 em {
-    font-style: italic;
-    color: var(--purple);
-  }
-
-  .section-lead {
-    font-size: 1rem;
-    color: var(--muted);
-    line-height: 1.75;
-    max-width: 520px;
-  }
-
-  /* ── PROBLEM SECTION ── */
-  .problem {
-    background: var(--ink);
-    color: var(--cream);
-  }
-
-  .problem .section-eyebrow { color: var(--gold); }
-  .problem .section-eyebrow::before { background: var(--gold); }
-  .problem .section-h2 { color: var(--cream); }
-  .problem .section-h2 em { color: var(--purple-mid); }
-  .problem .section-lead { color: rgba(245,243,238,0.55); }
-
-  .problem-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem;
-    margin-top: 4rem;
-  }
-
-  .problem-card {
-    border: 0.5px solid rgba(255,255,255,0.08);
-    border-radius: 4px;
-    padding: 2rem;
-    position: relative;
-    overflow: hidden;
-    transition: border-color 0.3s;
-  }
-
-  .problem-card:hover { border-color: rgba(255,255,255,0.2); }
-
-  .problem-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0;
-    width: 3px;
-    height: 100%;
-    background: var(--purple);
-  }
-
-  .problem-card:nth-child(2)::before { background: var(--gold); }
-  .problem-card:nth-child(3)::before { background: var(--purple-mid); }
-  .problem-card:nth-child(4)::before { background: rgba(255,255,255,0.2); }
-
-  .problem-num {
-    font-family: var(--ff-mono);
-    font-size: 0.65rem;
-    letter-spacing: 0.1em;
-    color: rgba(255,255,255,0.25);
-    margin-bottom: 1rem;
-  }
-
-  .problem-title {
-    font-family: var(--ff-display);
-    font-size: 1.3rem;
-    font-weight: 500;
-    color: var(--cream);
-    margin-bottom: 0.75rem;
-    line-height: 1.3;
-  }
-
-  .problem-desc {
-    font-size: 0.875rem;
-    color: rgba(245,243,238,0.5);
-    line-height: 1.7;
-  }
-
-  /* ── PROGRAMS ── */
-  .programs-layout {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    gap: 5rem;
-    align-items: start;
-    margin-top: 4rem;
-  }
-
-  .programs-sticky {
-    position: sticky;
-    top: 8rem;
-  }
-
-  .program-item {
-    border-top: 0.5px solid var(--border);
-    padding: 2.5rem 0;
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    gap: 2rem;
-    align-items: start;
-    transition: all 0.3s;
-    cursor: default;
-  }
-
-  .program-item:last-child { border-bottom: 0.5px solid var(--border); }
-
-  .program-num {
-    font-family: var(--ff-mono);
-    font-size: 0.7rem;
-    color: var(--muted);
-    letter-spacing: 0.05em;
-    padding-top: 0.2rem;
-  }
-
-  .program-body {}
-
-  .program-tag {
-    display: inline-block;
-    font-family: var(--ff-mono);
-    font-size: 0.65rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    padding: 0.2rem 0.6rem;
-    border-radius: 2px;
-    margin-bottom: 0.75rem;
-  }
-
-  .tag-free { background: var(--gold-light); color: var(--gold); }
-  .tag-core { background: var(--purple-light); color: var(--purple); }
-  .tag-adv { background: var(--ink); color: var(--cream); }
-
-  .program-title {
-    font-family: var(--ff-display);
-    font-size: 1.5rem;
-    font-weight: 500;
-    color: var(--ink);
-    margin-bottom: 0.5rem;
-    line-height: 1.2;
-  }
-
-  .program-desc {
-    font-size: 0.875rem;
-    color: var(--muted);
-    line-height: 1.7;
-    margin-bottom: 1.25rem;
-  }
-
-  .program-details {
-    display: flex;
-    gap: 1.5rem;
-    flex-wrap: wrap;
-  }
-
-  .program-detail {
-    font-family: var(--ff-mono);
-    font-size: 0.7rem;
-    color: var(--muted);
-    letter-spacing: 0.05em;
-  }
-
-  .program-detail strong {
-    display: block;
-    font-size: 0.85rem;
-    color: var(--ink);
-    font-weight: 500;
-    font-family: var(--ff-body);
-    margin-bottom: 0.1rem;
-  }
-
-  .program-price {
-    text-align: right;
-  }
-
-  .program-price-val {
-    font-family: var(--ff-display);
-    font-size: 1.5rem;
-    font-weight: 500;
-    color: var(--ink);
-  }
-
-  .program-price-note {
-    font-size: 0.7rem;
-    color: var(--muted);
-    font-family: var(--ff-mono);
-  }
-
-  /* ── COHORT SECTION ── */
-  .cohort {
-    background: var(--ink-soft);
-    color: var(--cream);
-  }
-
-  .cohort .section-eyebrow { color: var(--purple-mid); }
-  .cohort .section-eyebrow::before { background: var(--purple-mid); }
-  .cohort .section-h2 { color: var(--cream); }
-  .cohort .section-h2 em { color: var(--purple-mid); }
-  .cohort .section-lead { color: rgba(245,243,238,0.5); }
-
-  .cohort-layout {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 5rem;
-    margin-top: 4rem;
-    align-items: start;
-  }
-
-  .day-list { margin-top: 2rem; }
-
-  .day-item {
-    display: flex;
-    gap: 1.25rem;
-    padding: 1.25rem 0;
-    border-bottom: 0.5px solid rgba(255,255,255,0.07);
-    align-items: flex-start;
-  }
-
-  .day-item:first-child { padding-top: 0; }
-
-  .day-dot {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.06);
-    border: 0.5px solid rgba(255,255,255,0.12);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: var(--ff-mono);
-    font-size: 0.65rem;
-    color: rgba(255,255,255,0.4);
-    flex-shrink: 0;
-    margin-top: 0.1rem;
-  }
-
-  .day-dot.active {
-    background: var(--purple);
-    border-color: var(--purple);
-    color: white;
-  }
-
-  .day-body { flex: 1; }
-
-  .day-title {
-    font-size: 0.925rem;
-    font-weight: 500;
-    color: var(--cream);
-    margin-bottom: 0.2rem;
-  }
-
-  .day-desc {
-    font-size: 0.8rem;
-    color: rgba(245,243,238,0.45);
-    line-height: 1.6;
-  }
-
-  .cohort-right {}
-
-  .expert-card {
-    background: rgba(255,255,255,0.04);
-    border: 0.5px solid rgba(255,255,255,0.1);
-    border-radius: 4px;
-    padding: 1.75rem;
-    margin-bottom: 1rem;
-  }
-
-  .expert-card-label {
-    font-family: var(--ff-mono);
-    font-size: 0.65rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 1rem;
-  }
-
-  .expert-card-title {
-    font-family: var(--ff-display);
-    font-size: 1.3rem;
-    font-weight: 500;
-    color: var(--cream);
-    line-height: 1.3;
-    margin-bottom: 0.75rem;
-  }
-
-  .expert-card-desc {
-    font-size: 0.85rem;
-    color: rgba(245,243,238,0.5);
-    line-height: 1.7;
-  }
-
-  .credential-row {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.875rem 0;
-    border-bottom: 0.5px solid rgba(255,255,255,0.07);
-  }
-
-  .credential-row:last-child { border-bottom: none; }
-
-  .credential-icon {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--gold);
-    flex-shrink: 0;
-  }
-
-  .credential-text {
-    font-size: 0.85rem;
-    color: rgba(245,243,238,0.7);
-  }
-
-  /* ── PROOF / OUTCOMES ── */
-  .outcomes-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0;
-    margin-top: 4rem;
-    border: 0.5px solid var(--border);
-  }
-
-  .outcome-item {
-    padding: 2.5rem;
-    border-right: 0.5px solid var(--border);
-    border-bottom: 0.5px solid var(--border);
-    position: relative;
-    transition: background 0.3s;
-  }
-
-  .outcome-item:hover { background: var(--purple-light); }
-  .outcome-item:nth-child(3n) { border-right: none; }
-  .outcome-item:nth-last-child(-n+3) { border-bottom: none; }
-
-  .outcome-num {
-    font-family: var(--ff-display);
-    font-size: 3rem;
-    font-weight: 400;
-    color: var(--purple);
-    line-height: 1;
-    margin-bottom: 0.75rem;
-    font-style: italic;
-  }
-
-  .outcome-title {
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: var(--ink);
-    margin-bottom: 0.4rem;
-  }
-
-  .outcome-desc {
-    font-size: 0.8rem;
-    color: var(--muted);
-    line-height: 1.6;
-  }
-
-  /* ── HOW IT WORKS ── */
-  .how {
-    background: var(--cream-dark);
-  }
-
-  .how-steps {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 0;
-    margin-top: 4rem;
-    border-top: 0.5px solid var(--border);
-    border-left: 0.5px solid var(--border);
-  }
-
-  .how-step {
-    padding: 2.5rem 2rem;
-    border-right: 0.5px solid var(--border);
-    border-bottom: 0.5px solid var(--border);
-    position: relative;
-  }
-
-  .how-step-num {
-    font-family: var(--ff-display);
-    font-size: 4rem;
-    font-weight: 400;
-    color: var(--border-strong);
-    line-height: 1;
-    margin-bottom: 1.5rem;
-    font-style: italic;
-  }
-
-  .how-step-title {
-    font-family: var(--ff-display);
-    font-size: 1.15rem;
-    font-weight: 500;
-    color: var(--ink);
-    margin-bottom: 0.6rem;
-    line-height: 1.3;
-  }
-
-  .how-step-desc {
-    font-size: 0.8rem;
-    color: var(--muted);
-    line-height: 1.7;
-  }
-
-  .how-step-tag {
-    position: absolute;
-    top: 2rem;
-    right: 2rem;
-    font-family: var(--ff-mono);
-    font-size: 0.6rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    padding: 0.2rem 0.5rem;
-    border-radius: 2px;
-    background: var(--gold-light);
-    color: var(--gold);
-  }
-
-  /* ── WHY FINVERZE ── */
-  .why-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.5rem;
-    margin-top: 4rem;
-  }
-
-  .why-card {
-    border: 0.5px solid var(--border);
-    border-radius: 4px;
-    padding: 2rem;
-    position: relative;
-    overflow: hidden;
-    transition: all 0.3s;
-  }
-
-  .why-card:hover {
-    border-color: var(--purple);
-    transform: translateY(-2px);
-  }
-
-  .why-card:first-child {
-    grid-column: span 2;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem;
-    background: var(--ink);
-    border-color: transparent;
-  }
-
-  .why-card:first-child .why-title { color: var(--cream); }
-  .why-card:first-child .why-desc { color: rgba(245,243,238,0.5); }
-  .why-card:first-child .why-num { color: var(--purple-mid); }
-
-  .why-num {
-    font-family: var(--ff-display);
-    font-size: 0.9rem;
-    font-style: italic;
-    color: var(--purple);
-    margin-bottom: 0.75rem;
-  }
-
-  .why-title {
-    font-family: var(--ff-display);
-    font-size: 1.2rem;
-    font-weight: 500;
-    color: var(--ink);
-    margin-bottom: 0.6rem;
-    line-height: 1.3;
-  }
-
-  .why-desc {
-    font-size: 0.85rem;
-    color: var(--muted);
-    line-height: 1.7;
-  }
-
-  /* ── CONTACT ── */
-  .contact {
-    background: var(--ink);
-    color: var(--cream);
-  }
-
-  .contact .section-eyebrow { color: var(--gold); }
-  .contact .section-eyebrow::before { background: var(--gold); }
-  .contact .section-h2 { color: var(--cream); }
-  .contact .section-h2 em { color: var(--purple-mid); }
-
-  .contact-layout {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 6rem;
-    margin-top: 4rem;
-    align-items: start;
-  }
-
-  .contact-info {}
-
-  .contact-detail {
-    border-top: 0.5px solid rgba(255,255,255,0.08);
-    padding: 1.5rem 0;
-  }
-
-  .contact-detail:last-child { border-bottom: 0.5px solid rgba(255,255,255,0.08); }
-
-  .contact-detail-label {
-    font-family: var(--ff-mono);
-    font-size: 0.65rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: rgba(255,255,255,0.3);
-    margin-bottom: 0.4rem;
-  }
-
-  .contact-detail-val {
-    font-size: 0.95rem;
-    color: var(--cream);
-  }
-
-  .contact-detail-val a {
-    color: var(--gold);
-    text-decoration: none;
-  }
-
-  .contact-form {
-    background: rgba(255,255,255,0.04);
-    border: 0.5px solid rgba(255,255,255,0.08);
-    border-radius: 4px;
-    padding: 2.5rem;
-  }
-
-  .form-title {
-    font-family: var(--ff-display);
-    font-size: 1.5rem;
-    font-weight: 500;
-    color: var(--cream);
-    margin-bottom: 0.5rem;
-  }
-
-  .form-sub {
-    font-size: 0.85rem;
-    color: rgba(255,255,255,0.4);
-    margin-bottom: 2rem;
-  }
-
-  .form-group {
-    margin-bottom: 1.25rem;
-  }
-
-  .form-label {
-    display: block;
-    font-family: var(--ff-mono);
-    font-size: 0.65rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: rgba(255,255,255,0.4);
-    margin-bottom: 0.4rem;
-  }
-
-  .form-input, .form-select {
-    width: 100%;
-    background: rgba(255,255,255,0.06);
-    border: 0.5px solid rgba(255,255,255,0.1);
-    border-radius: 2px;
-    padding: 0.75rem 1rem;
-    font-family: var(--ff-body);
-    font-size: 0.875rem;
-    color: var(--cream);
-    outline: none;
-    transition: border-color 0.2s;
-    -webkit-appearance: none;
-  }
-
-  .form-input::placeholder { color: rgba(255,255,255,0.2); }
-  .form-input:focus, .form-select:focus { border-color: var(--purple-mid); }
-
-  .form-select {
-    cursor: pointer;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.4)' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 1rem center;
-    padding-right: 2.5rem;
-  }
-
-  .form-select option { background: var(--ink-soft); color: var(--cream); }
-
-  .form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-  }
-
-  .form-note {
-    font-size: 0.75rem;
-    color: rgba(255,255,255,0.3);
-    margin-top: 1rem;
-    font-family: var(--ff-mono);
-    letter-spacing: 0.03em;
-  }
-
-  /* ── FOOTER ── */
-  footer {
-    background: var(--ink);
-    border-top: 0.5px solid rgba(255,255,255,0.06);
-    padding: 3rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .footer-logo {
-    font-family: var(--ff-display);
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: rgba(255,255,255,0.3);
-    letter-spacing: -0.02em;
-  }
-
-  .footer-links {
-    display: flex;
-    gap: 2rem;
-    list-style: none;
-  }
-
-  .footer-links a {
-    font-size: 0.75rem;
-    color: rgba(255,255,255,0.3);
-    text-decoration: none;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    font-family: var(--ff-mono);
-    transition: color 0.2s;
-  }
-
-  .footer-links a:hover { color: rgba(255,255,255,0.7); }
-
-  .footer-copy {
-    font-size: 0.75rem;
-    color: rgba(255,255,255,0.2);
-    font-family: var(--ff-mono);
-  }
-
-  /* ── ANIMATIONS ── */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .reveal {
-    opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 0.7s ease, transform 0.7s ease;
-  }
-
-  .reveal.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  /* ── MOBILE ── */
-  @media (max-width: 900px) {
-    nav { padding: 1rem 1.5rem; }
-    .nav-links { display: none; }
-    .hero { grid-template-columns: 1fr; min-height: auto; }
-    .hero-left { padding: 7rem 1.5rem 3rem; }
-    .hero-right { min-height: 320px; }
-    .hero-card-grid { grid-template-columns: 1fr 1fr; }
-    section { padding: 4rem 1.5rem; }
-    .problem-grid { grid-template-columns: 1fr; }
-    .programs-layout { grid-template-columns: 1fr; gap: 2rem; }
-    .programs-sticky { position: relative; top: 0; }
-    .cohort-layout { grid-template-columns: 1fr; gap: 3rem; }
-    .outcomes-grid { grid-template-columns: 1fr 1fr; }
-    .outcome-item:nth-child(2n) { border-right: none; }
-    .outcome-item:nth-child(3n) { border-right: 0.5px solid var(--border); }
-    .how-steps { grid-template-columns: 1fr 1fr; }
-    .why-grid { grid-template-columns: 1fr; }
-    .why-card:first-child { grid-column: span 1; grid-template-columns: 1fr; }
-    .contact-layout { grid-template-columns: 1fr; gap: 3rem; }
-    .form-row { grid-template-columns: 1fr; }
-    footer { flex-direction: column; gap: 1.5rem; text-align: center; }
-    .footer-links { flex-wrap: wrap; justify-content: center; }
-  }
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#060608;
+  --p:#7B6EF6;
+  --p2:#A99DF8;
+  --gold:#E8A838;
+  --g:#00E07A;
+  --w:#fff;
+  --m:rgba(255,255,255,0.42);
+  --s:rgba(255,255,255,0.07);
+  --s2:rgba(255,255,255,0.11);
+}
+html{scroll-behavior:smooth}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--w);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+
+/* CURSOR GLOW */
+.cursor-glow{position:fixed;width:500px;height:500px;background:radial-gradient(circle,rgba(123,110,246,0.12) 0%,transparent 70%);border-radius:50%;pointer-events:none;z-index:0;transform:translate(-50%,-50%);transition:all 0.15s ease}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 48px;height:64px;border-bottom:1px solid var(--s);background:rgba(6,6,8,0.8);backdrop-filter:blur(20px)}
+.logo{font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:20px;letter-spacing:-0.03em;background:linear-gradient(120deg,#fff,var(--p2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-decoration:none}
+.nav-r{display:flex;gap:10px}
+.btn{display:inline-flex;align-items:center;height:36px;padding:0 18px;border-radius:20px;font-size:13px;font-weight:500;text-decoration:none;cursor:pointer;border:none;font-family:'Plus Jakarta Sans',sans-serif;transition:all 0.2s}
+.btn-g{background:transparent;border:1px solid var(--s2);color:rgba(255,255,255,0.6)}
+.btn-g:hover{background:var(--s);color:#fff}
+.btn-p{background:var(--p);color:#fff}
+.btn-p:hover{background:#6a5de8;box-shadow:0 8px 28px rgba(123,110,246,0.4);transform:translateY(-1px)}
+
+/* HERO */
+.hero{min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 24px 60px;position:relative;z-index:1;overflow:hidden}
+
+/* BG orbs */
+.orb{position:absolute;border-radius:50%;filter:blur(100px);pointer-events:none}
+.o1{width:700px;height:700px;background:rgba(123,110,246,0.13);top:-150px;left:-200px;animation:drift1 12s ease-in-out infinite}
+.o2{width:500px;height:500px;background:rgba(0,224,122,0.07);bottom:-100px;right:-100px;animation:drift2 15s ease-in-out infinite}
+.o3{width:350px;height:350px;background:rgba(232,168,56,0.07);top:40%;left:60%;animation:drift1 18s ease-in-out infinite reverse}
+@keyframes drift1{0%,100%{transform:translate(0,0)}50%{transform:translate(40px,30px)}}
+@keyframes drift2{0%,100%{transform:translate(0,0)}50%{transform:translate(-30px,40px)}}
+
+.hero-pill{display:inline-flex;align-items:center;gap:8px;padding:5px 14px;border-radius:20px;background:rgba(123,110,246,0.1);border:1px solid rgba(123,110,246,0.25);font-size:12px;font-weight:500;color:var(--p2);letter-spacing:0.04em;margin-bottom:40px;opacity:0;animation:up 0.7s 0.1s forwards}
+.pill-dot{width:6px;height:6px;border-radius:50%;background:var(--g);box-shadow:0 0 6px var(--g);animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+
+.hero-h{font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:clamp(56px,9vw,112px);line-height:0.92;letter-spacing:-0.04em;margin-bottom:32px;opacity:0;animation:up 0.8s 0.2s forwards}
+.hero-h .w{display:block;color:#fff}
+.hero-h .c{display:block;background:linear-gradient(120deg,var(--p),var(--p2),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-h .f{display:block;color:rgba(255,255,255,0.18)}
+
+.hero-s{font-size:18px;font-weight:300;color:var(--m);line-height:1.6;max-width:440px;margin:0 auto 44px;opacity:0;animation:up 0.8s 0.35s forwards}
+.hero-s b{color:rgba(255,255,255,0.75);font-weight:500}
+
+.hero-btns{display:flex;gap:12px;justify-content:center;margin-bottom:80px;opacity:0;animation:up 0.8s 0.5s forwards}
+.btn-lg{height:50px;padding:0 30px;border-radius:25px;font-size:15px}
+.btn-lg.btn-p:hover{transform:translateY(-2px);box-shadow:0 16px 40px rgba(123,110,246,0.45)}
+
+/* STATS ROW */
+.stats{display:flex;justify-content:center;gap:1px;background:var(--s);border-radius:16px;overflow:hidden;border:1px solid var(--s);max-width:680px;width:100%;margin:0 auto;opacity:0;animation:up 0.8s 0.65s forwards}
+.stat{flex:1;background:rgba(255,255,255,0.03);padding:22px 16px;text-align:center;backdrop-filter:blur(10px);transition:background 0.2s}
+.stat:hover{background:rgba(255,255,255,0.06)}
+.stat-n{font-family:'Plus Jakarta Sans',sans-serif;font-size:30px;font-weight:800;color:#fff;letter-spacing:-0.03em;line-height:1}
+.stat-n em{color:var(--p2);font-style:normal}
+.stat-l{font-size:11px;color:var(--m);margin-top:5px;letter-spacing:0.03em}
+
+@keyframes up{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+
+/* MARQUEE */
+.mq{border-top:1px solid var(--s);border-bottom:1px solid var(--s);padding:16px 0;overflow:hidden;position:relative;z-index:1}
+.mq-t{display:flex;width:max-content;animation:mq 20s linear infinite}
+.mq-i{display:flex;align-items:center;gap:16px;padding:0 24px;font-size:12px;color:var(--m);letter-spacing:0.07em;white-space:nowrap;font-weight:500}
+.mq-d{width:3px;height:3px;border-radius:50%;background:var(--p)}
+@keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* SECTION */
+.sec{padding:100px 48px;position:relative;z-index:1}
+.sec-center{text-align:center}
+.wrap{max-width:1100px;margin:0 auto}
+.lbl{font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--p2);margin-bottom:18px;display:flex;align-items:center;gap:8px}
+.lbl::before{content:'';width:14px;height:1px;background:var(--p2)}
+.lbl-c{justify-content:center}
+.lbl-c::before{display:none}
+.lbl-c::after{content:'';width:14px;height:1px;background:var(--p2)}
+.h2{font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(36px,4.5vw,58px);font-weight:800;letter-spacing:-0.03em;line-height:1.0;color:#fff}
+.h2 .c{background:linear-gradient(120deg,var(--p),var(--p2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.sub{font-size:16px;font-weight:300;color:var(--m);line-height:1.65;max-width:420px;margin-top:14px}
+.sub-c{margin:14px auto 0;text-align:center}
+
+/* REVEAL */
+.rv{opacity:0;transform:translateY(36px);transition:opacity 0.75s cubic-bezier(0.16,1,0.3,1),transform 0.75s cubic-bezier(0.16,1,0.3,1)}
+.rv.on{opacity:1;transform:none}
+.d1{transition-delay:0.08s}.d2{transition-delay:0.16s}.d3{transition-delay:0.24s}.d4{transition-delay:0.32s}
+
+/* PROBLEM — big numbers */
+.prob-sec{background:#060608}
+.prob-nums{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--s);border:1px solid var(--s);border-radius:16px;overflow:hidden;margin-top:60px}
+.prob-item{background:var(--bg);padding:52px 40px;position:relative;overflow:hidden;transition:background 0.3s}
+.prob-item:hover{background:#0a0a10}
+.prob-item::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--p),var(--p2));transform:scaleX(0);transform-origin:left;transition:transform 0.4s}
+.prob-item:hover::after{transform:scaleX(1)}
+.pi-big{font-family:'Plus Jakarta Sans',sans-serif;font-size:72px;font-weight:800;line-height:1;letter-spacing:-0.04em;color:rgba(123,110,246,0.15);margin-bottom:16px}
+.pi-t{font-size:17px;font-weight:600;color:#fff;margin-bottom:8px;letter-spacing:-0.01em}
+.pi-s{font-size:13px;color:var(--m);line-height:1.6;font-weight:300}
+
+/* PROGRAMS */
+.prog-grid{display:flex;flex-direction:column;gap:2px;margin-top:56px}
+.pg{background:var(--s);border:1px solid var(--s2);border-radius:16px;padding:36px 40px;display:grid;grid-template-columns:1fr auto;align-items:center;gap:24px;transition:all 0.3s;cursor:default}
+.pg:hover{background:rgba(123,110,246,0.07);border-color:rgba(123,110,246,0.25);transform:translateX(6px)}
+.pg.star{border-left:3px solid var(--p);background:rgba(123,110,246,0.06)}
+.pg.star:hover{background:rgba(123,110,246,0.12)}
+.pg-tag{display:inline-block;padding:3px 10px;border-radius:20px;font-size:10px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;margin-bottom:10px}
+.t-free{background:rgba(232,168,56,0.12);color:var(--gold);border:1px solid rgba(232,168,56,0.2)}
+.t-core{background:rgba(123,110,246,0.15);color:var(--p2);border:1px solid rgba(123,110,246,0.25)}
+.t-adv{background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.5);border:1px solid var(--s2)}
+.pg-t{font-family:'Plus Jakarta Sans',sans-serif;font-size:22px;font-weight:800;color:#fff;letter-spacing:-0.02em;margin-bottom:6px}
+.pg-s{font-size:14px;color:var(--m);line-height:1.55;font-weight:300;max-width:540px}
+.pg-chips{display:flex;gap:6px;margin-top:14px;flex-wrap:wrap}
+.chip{padding:4px 10px;border-radius:20px;font-size:11px;color:rgba(255,255,255,0.5);border:1px solid var(--s2);background:rgba(255,255,255,0.03)}
+.pg-price{text-align:right}
+.pg-pv{font-family:'Plus Jakarta Sans',sans-serif;font-size:26px;font-weight:800;color:#fff;letter-spacing:-0.03em;white-space:nowrap}
+.pg-pn{font-size:11px;color:var(--m);margin-top:2px}
+
+/* COHORT */
+.cohort-bg{background:#08080F}
+.c-layout{display:grid;grid-template-columns:1fr 1fr;gap:48px;margin-top:60px;align-items:start}
+.days{display:flex;flex-direction:column}
+.day{display:flex;gap:14px;padding:16px 0;border-bottom:1px solid var(--s);align-items:flex-start;transition:all 0.2s}
+.day:first-child{padding-top:0}
+.day:hover .day-t{color:var(--p2)}
+.day-n{width:30px;height:30px;border-radius:8px;border:1px solid var(--s2);display:flex;align-items:center;justify-content:center;font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:800;color:var(--m);flex-shrink:0;transition:all 0.2s}
+.day-n.a{background:var(--p);border-color:var(--p);color:#fff}
+.day:hover .day-n{border-color:var(--p);color:var(--p2)}
+.day-t{font-size:14px;font-weight:500;color:rgba(255,255,255,0.65);margin-bottom:2px;transition:color 0.2s}
+.day-d{font-size:12px;color:var(--m);line-height:1.55;font-weight:300}
+
+/* GLASS */
+.glass{background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.07);border-radius:16px;padding:32px;position:relative;overflow:hidden;margin-bottom:12px}
+.glass::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.12),transparent)}
+.gl{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+.gh{font-family:'Plus Jakarta Sans',sans-serif;font-size:22px;font-weight:800;color:#fff;letter-spacing:-0.02em;margin-bottom:10px;line-height:1.15}
+.gb{font-size:13px;color:var(--m);line-height:1.65;font-weight:300;margin-bottom:20px}
+.proof{display:flex;flex-direction:column;gap:10px}
+.pr{display:flex;gap:10px;align-items:flex-start}
+.pr-i{width:18px;height:18px;border-radius:50%;background:rgba(0,224,122,0.12);border:1px solid rgba(0,224,122,0.22);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;font-size:9px;color:var(--g)}
+.pr-t{font-size:13px;color:var(--m);line-height:1.55;font-weight:300}
+
+/* OUTCOMES */
+.out-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:56px}
+.out{background:var(--s);border:1px solid var(--s2);border-radius:14px;padding:32px 28px;transition:all 0.3s}
+.out:hover{border-color:var(--p);transform:translateY(-5px);box-shadow:0 20px 48px rgba(123,110,246,0.12)}
+.out-n{font-family:'Plus Jakarta Sans',sans-serif;font-size:48px;font-weight:800;color:rgba(123,110,246,0.07);letter-spacing:-0.04em;line-height:1;margin-bottom:16px}
+.out-t{font-size:15px;font-weight:600;color:#fff;margin-bottom:6px}
+.out-s{font-size:13px;color:var(--m);line-height:1.6;font-weight:300}
+
+/* HOW */
+.how-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--s);border:1px solid var(--s2);border-radius:16px;overflow:hidden;margin-top:56px}
+.hw{background:var(--bg);padding:36px 28px;transition:background 0.2s;position:relative}
+.hw:hover{background:#0a0a10}
+.hw-n{font-family:'Plus Jakarta Sans',sans-serif;font-size:52px;font-weight:800;color:rgba(255,255,255,0.025);letter-spacing:-0.04em;line-height:1;margin-bottom:20px}
+.hw-tag{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--p2);border:1px solid rgba(123,110,246,0.25);border-radius:20px;padding:2px 8px;display:inline-block;margin-bottom:14px}
+.hw-t{font-size:15px;font-weight:600;color:#fff;margin-bottom:8px}
+.hw-s{font-size:13px;color:var(--m);line-height:1.6;font-weight:300}
+
+/* CONTACT */
+.c-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;margin-top:60px;align-items:start}
+.c-left{}
+.c-big{font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(32px,4vw,52px);font-weight:800;letter-spacing:-0.03em;line-height:1.05;color:#fff;margin-bottom:18px}
+.c-big .c{background:linear-gradient(120deg,var(--p),var(--p2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.c-note{font-size:15px;color:var(--m);line-height:1.65;font-weight:300;margin-bottom:36px}
+.c-rows{display:flex;flex-direction:column}
+.c-row{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid var(--s)}
+.c-row:first-child{border-top:1px solid var(--s)}
+.c-rl{font-size:11px;color:var(--m)}
+.c-rv{font-size:13px;color:rgba(255,255,255,0.7);font-weight:500}
+.c-rv a{color:var(--p2);text-decoration:none}
+
+/* FORM */
+.form{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.07);border-radius:16px;padding:40px;position:relative;overflow:hidden}
+.form::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(123,110,246,0.5),transparent)}
+.ft{font-family:'Plus Jakarta Sans',sans-serif;font-size:22px;font-weight:800;color:#fff;letter-spacing:-0.02em;margin-bottom:4px}
+.fs{font-size:13px;color:var(--m);margin-bottom:28px}
+.fg{margin-bottom:12px}
+.fl{display:block;font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:rgba(255,255,255,0.28);margin-bottom:6px}
+.fi,.fsel{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:8px;padding:11px 14px;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;color:#fff;outline:none;transition:all 0.2s;-webkit-appearance:none}
+.fi::placeholder{color:rgba(255,255,255,0.18)}
+.fi:focus{border-color:rgba(123,110,246,0.5);background:rgba(123,110,246,0.05)}
+.fsel:focus{border-color:rgba(123,110,246,0.5);background:rgba(123,110,246,0.05)}
+.fsel{cursor:pointer}.fsel option{background:#0d0d16;color:#fff}
+.fr{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.fsub{width:100%;height:48px;border-radius:24px;background:linear-gradient(120deg,var(--p),#8B7CF6);color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:600;border:none;cursor:pointer;margin-top:6px;transition:all 0.2s;letter-spacing:0.01em}
+.fsub:hover{transform:translateY(-2px);box-shadow:0 14px 36px rgba(123,110,246,0.4)}
+.fn{font-size:11px;color:rgba(255,255,255,0.18);text-align:center;margin-top:10px}
+
+/* FINAL CTA */
+.fcta{padding:120px 24px;text-align:center;position:relative;z-index:1;border-top:1px solid var(--s);background:radial-gradient(ellipse at 50% 0%,rgba(123,110,246,0.1) 0%,transparent 65%)}
+.fcta-h{font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(44px,7vw,88px);font-weight:800;letter-spacing:-0.04em;line-height:0.95;color:#fff;margin-bottom:20px}
+.fcta-h .c{background:linear-gradient(120deg,var(--p),var(--p2),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.fcta-s{font-size:16px;color:var(--m);font-weight:300;margin-bottom:36px}
+.fcta-btns{display:flex;gap:12px;justify-content:center}
+
+footer{border-top:1px solid var(--s);padding:32px 48px;display:flex;align-items:center;justify-content:space-between;position:relative;z-index:1}
+.fl-logo{font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:17px;color:rgba(255,255,255,0.2);letter-spacing:-0.02em}
+.fl-links{display:flex;gap:24px;list-style:none}
+.fl-links a{font-size:12px;color:rgba(255,255,255,0.2);text-decoration:none;transition:color 0.2s}
+.fl-links a:hover{color:rgba(255,255,255,0.6)}
+.fl-copy{font-size:11px;color:rgba(255,255,255,0.15)}
+
+@media(max-width:860px){
+  nav{padding:0 20px}
+  .btn-g{display:none}
+  .hero-h{font-size:clamp(44px,12vw,72px)}
+  .stats{flex-direction:column;max-width:300px}
+  .sec{padding:72px 24px}
+  .prob-nums{grid-template-columns:1fr}
+  .pg{grid-template-columns:1fr}
+  .pg-price{text-align:left}
+  .c-layout{grid-template-columns:1fr}
+  .out-grid{grid-template-columns:1fr 1fr}
+  .how-grid{grid-template-columns:1fr 1fr}
+  .c-grid{grid-template-columns:1fr}
+  .fr{grid-template-columns:1fr}
+  footer{flex-direction:column;gap:16px;text-align:center}
+  .fl-links{justify-content:center}
+}
 </style>
 </head>
 <body>
 
-<!-- NAV -->
+<div class="cursor-glow" id="glow"></div>
+
 <nav>
-  <a href="#" class="nav-logo">Fin<span>verze</span></a>
-  <ul class="nav-links">
-    <li><a href="#about">About</a></li>
-    <li><a href="#programs">Programs</a></li>
-    <li><a href="#cohort">The Cohort</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
-  <div class="nav-cta">
-    <a href="#programs" class="btn btn-ghost">Our Programs</a>
-    <a href="#contact" class="btn btn-primary">Partner With Us</a>
+  <a href="#" class="logo">Finverze</a>
+  <div class="nav-r">
+    <a href="#cohorts" class="btn btn-g">What we offer</a>
+    <a href="#contact" class="btn btn-p">Partner with us</a>
   </div>
 </nav>
 
 <!-- HERO -->
-<section class="hero" id="about">
-  <div class="hero-left">
-    <div class="hero-eyebrow">Now accepting school partners — 2026</div>
-    <h1 class="hero-h1">
-      Financial discipline<br>
-      for <em>PUC students.</em><br>
-      Finally.
-    </h1>
-    <p class="hero-sub">
-      12 years of school. Zero classes on money.<br>
-      <strong>Finverze fixes that</strong> — with a structured 7-day program delivered by a certified CA, designed for 11th and 12th grade students who are about to make their most expensive decisions.
-    </p>
-    <div class="hero-actions">
-      <a href="#cohort" class="btn btn-primary">Explore The Cohort</a>
-      <a href="#contact" class="btn btn-ghost">Partner With Us</a>
-    </div>
+<section class="hero">
+  <div class="orb o1"></div>
+  <div class="orb o2"></div>
+  <div class="orb o3"></div>
+
+  <div class="hero-pill">
+    <span class="pill-dot"></span>
+    Bengaluru · 2026 cohorts open
   </div>
-  <div class="hero-right">
-    <div class="hero-card-stack">
-      <div class="stat-card accent">
-        <div class="stat-card-label">Cohort format</div>
-        <div class="stat-card-value">7 Days</div>
-        <div class="stat-card-sub">Live classroom sessions. Not a one-day talk.</div>
-      </div>
-      <div class="hero-card-grid">
-        <div class="stat-card">
-          <div class="stat-card-label">Delivered by</div>
-          <div class="stat-card-value" style="font-size:1.6rem">CA / CFA</div>
-          <div class="stat-card-sub">Certified professional</div>
-        </div>
-        <div class="stat-card gold-card">
-          <div class="stat-card-label">Target students</div>
-          <div class="stat-card-value" style="font-size:1.4rem">PUC 1 & 2</div>
-          <div class="stat-card-sub">11th & 12th grade</div>
-        </div>
-      </div>
+
+  <h1 class="hero-h">
+    <span class="w">Money skills</span>
+    <span class="c">schools never taught.</span>
+    <span class="f">We do.</span>
+  </h1>
+
+  <p class="hero-s">
+    A <b>7-day cohort</b> for PUC students.<br>
+    Live classroom. Certified CA. Real habits.
+  </p>
+
+  <div class="hero-btns">
+    <a href="#cohort" class="btn btn-p btn-lg">See The Cohort →</a>
+    <a href="#contact" class="btn btn-g btn-lg">Partner with us</a>
+  </div>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-n">7<em>d</em></div>
+      <div class="stat-l">Cohort length</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n">CA</div>
+      <div class="stat-l">Certified delivery</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n">PUC</div>
+      <div class="stat-l">11th &amp; 12th grade</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n">60<em>+</em></div>
+      <div class="stat-l">Per cohort</div>
     </div>
   </div>
 </section>
 
-<!-- TICKER -->
-<div class="ticker">
-  <div class="ticker-track">
-    <span class="ticker-item">Financial Discipline <span>✦</span></span>
-    <span class="ticker-item">Delivered by a Certified CA <span>✦</span></span>
-    <span class="ticker-item">PUC 1 & PUC 2 <span>✦</span></span>
-    <span class="ticker-item">7-Day Cohort <span>✦</span></span>
-    <span class="ticker-item">Real Habit Change <span>✦</span></span>
-    <span class="ticker-item">Bengaluru Schools <span>✦</span></span>
-    <span class="ticker-item">Not a Lecture. A System. <span>✦</span></span>
-    <span class="ticker-item">Financial Discipline <span>✦</span></span>
-    <span class="ticker-item">Delivered by a Certified CA <span>✦</span></span>
-    <span class="ticker-item">PUC 1 & PUC 2 <span>✦</span></span>
-    <span class="ticker-item">7-Day Cohort <span>✦</span></span>
-    <span class="ticker-item">Real Habit Change <span>✦</span></span>
-    <span class="ticker-item">Bengaluru Schools <span>✦</span></span>
-    <span class="ticker-item">Not a Lecture. A System. <span>✦</span></span>
+<!-- MARQUEE -->
+<div class="mq">
+  <div class="mq-t">
+    <span class="mq-i"><span class="mq-d"></span>Financial discipline</span>
+    <span class="mq-i"><span class="mq-d"></span>Certified CA</span>
+    <span class="mq-i"><span class="mq-d"></span>PUC 1 &amp; 2</span>
+    <span class="mq-i"><span class="mq-d"></span>7-Day cohort</span>
+    <span class="mq-i"><span class="mq-d"></span>Real habit change</span>
+    <span class="mq-i"><span class="mq-d"></span>Not a lecture</span>
+    <span class="mq-i"><span class="mq-d"></span>Bengaluru</span>
+    <span class="mq-i"><span class="mq-d"></span>Money blueprint</span>
+    <span class="mq-i"><span class="mq-d"></span>Financial discipline</span>
+    <span class="mq-i"><span class="mq-d"></span>Certified CA</span>
+    <span class="mq-i"><span class="mq-d"></span>PUC 1 &amp; 2</span>
+    <span class="mq-i"><span class="mq-d"></span>7-Day cohort</span>
+    <span class="mq-i"><span class="mq-d"></span>Real habit change</span>
+    <span class="mq-i"><span class="mq-d"></span>Not a lecture</span>
+    <span class="mq-i"><span class="mq-d"></span>Bengaluru</span>
+    <span class="mq-i"><span class="mq-d"></span>Money blueprint</span>
   </div>
 </div>
 
 <!-- PROBLEM -->
-<section class="problem" id="problem">
-  <div class="section-eyebrow">The problem</div>
-  <h2 class="section-h2">Schools teach formulas.<br><em>Nobody teaches money.</em></h2>
-  <p class="section-lead">Your students will manage salaries, loans, investments, and taxes within 5 years of leaving your school. None of that is in the curriculum.</p>
-
-  <div class="problem-grid reveal">
-    <div class="problem-card">
-      <div class="problem-num">01</div>
-      <div class="problem-title">12 years of school. Zero finance classes.</div>
-      <div class="problem-desc">Trigonometry, thermodynamics, the French Revolution — all covered. How a bank account actually grows your money? Never mentioned.</div>
-    </div>
-    <div class="problem-card">
-      <div class="problem-num">02</div>
-      <div class="problem-title">First salary arrives. Nobody prepared them.</div>
-      <div class="problem-desc">Students graduate, start earning, and immediately repeat the financial patterns of adults who also never learned — spend first, save whatever's left, which is usually nothing.</div>
-    </div>
-    <div class="problem-card">
-      <div class="problem-num">03</div>
-      <div class="problem-title">A one-day talk doesn't change behaviour.</div>
-      <div class="problem-desc">Awareness is not enough. A student who attends a 60-minute workshop forgets 70% of it within 48 hours. Real change requires structure, repetition, and accountability over time.</div>
-    </div>
-    <div class="problem-card">
-      <div class="problem-num">04</div>
-      <div class="problem-title">PUC is the last window before real money decisions.</div>
-      <div class="problem-desc">After PUC, students pick courses, take education loans, and start spending independently. The habits formed now — good or bad — follow them for decades. This is the right moment.</div>
+<section class="sec prob-sec" id="problem">
+  <div class="wrap">
+    <div class="lbl rv">The problem</div>
+    <h2 class="h2 rv d1">12 years of school.<br><span class="c">Zero on money.</span></h2>
+    <div class="prob-nums">
+      <div class="prob-item rv d1">
+        <div class="pi-big">12</div>
+        <div class="pi-t">Years of school with zero finance</div>
+        <div class="pi-s">Calculus yes. How a bank account grows your money — never covered.</div>
+      </div>
+      <div class="prob-item rv d2">
+        <div class="pi-big">70%</div>
+        <div class="pi-t">Forgotten after a single workshop</div>
+        <div class="pi-s">Awareness without structure fades in 48 hours. Real change needs repetition.</div>
+      </div>
+      <div class="prob-item rv d3">
+        <div class="pi-big">17</div>
+        <div class="pi-t">The age when it still matters most</div>
+        <div class="pi-s">After PUC: college fees, education loans, independent spending. This is the window.</div>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- PROGRAMS -->
-<section id="programs">
-  <div class="section-eyebrow">Programs</div>
-  <h2 class="section-h2">Three touchpoints.<br><em>One transformation.</em></h2>
-  <p class="section-lead">Every school partnership starts with a free awareness session. The Cohort is where the real work happens.</p>
-
-  <div class="programs-layout">
-    <div class="programs-sticky reveal">
-      <p style="font-size:0.85rem;color:var(--muted);line-height:1.7;margin-bottom:1.5rem">Every program builds on the last. Schools start with a free awareness session — then move into The Cohort when students and management are ready.</p>
-      <a href="#contact" class="btn btn-primary" style="display:inline-block">Talk to us →</a>
-    </div>
-
-    <div class="reveal">
-      <div class="program-item">
-        <div class="program-num">00</div>
-        <div class="program-body">
-          <span class="program-tag tag-free">Included free</span>
-          <div class="program-title">Awareness Session</div>
-          <div class="program-desc">A high-energy 60-minute session run by the Finverze founder — no fee, no conditions. Designed to make students feel that money is the most important skill nobody taught them. Ends with students asking to continue. This is your school's entry point.</div>
-          <div class="program-details">
-            <div class="program-detail"><strong>60 minutes</strong>Duration</div>
-            <div class="program-detail"><strong>You</strong>Delivered by</div>
-            <div class="program-detail"><strong>Full class</strong>Audience</div>
-          </div>
+<section class="sec" id="cohorts">
+  <div class="wrap">
+    <div class="lbl rv">What we offer</div>
+    <h2 class="h2 rv d1">Two cohorts.<br><span class="c">One financial identity.</span></h2>
+    <div class="prog-grid">
+      <div class="pg rv d1">
+        <div>
+          <span class="pg-tag t-free">Free</span>
+          <div class="pg-t">Awareness Session</div>
+          <div class="pg-s">60 minutes by the Finverze founder. No fee, no conditions. Makes students feel the gap — and want to fill it.</div>
+          <div class="pg-chips"><span class="chip">60 min</span><span class="chip">Founder-led</span><span class="chip">Full batch</span></div>
         </div>
-        <div class="program-price">
-          <div class="program-price-val">Free</div>
-          <div class="program-price-note">always</div>
-        </div>
+        <div class="pg-price"><div class="pg-pv">Free</div><div class="pg-pn">always</div></div>
       </div>
-
-      <div class="program-item">
-        <div class="program-num">01</div>
-        <div class="program-body">
-          <span class="program-tag tag-core">Core program</span>
-          <div class="program-title">The Finverze Cohort</div>
-          <div class="program-desc">7 consecutive school days. 60 minutes per day. Delivered by a certified CA in your classroom, using Finverze's structured curriculum. Students build real financial habits — not just awareness. Ends with a personal money blueprint and completion certificate every student keeps.</div>
-          <div class="program-details">
-            <div class="program-detail"><strong>7 days</strong>Duration</div>
-            <div class="program-detail"><strong>Certified CA</strong>Delivered by</div>
-            <div class="program-detail"><strong>Up to 60</strong>Students</div>
-            <div class="program-detail"><strong>Certificate</strong>On completion</div>
-          </div>
+      <div class="pg star rv d2">
+        <div>
+          <span class="pg-tag t-core">Core cohort</span>
+          <div class="pg-t">The Finverze Cohort</div>
+          <div class="pg-s">7 days. 60 min each. Certified CA in your classroom. Students leave with a signed money blueprint and a certificate.</div>
+          <div class="pg-chips"><span class="chip">7 days</span><span class="chip">Certified CA</span><span class="chip">Up to 60 students</span><span class="chip">Certificate</span></div>
         </div>
-        <div class="program-price">
-          <div class="program-price-val">₹12k–18k</div>
-          <div class="program-price-note">per cohort</div>
-        </div>
+        <div class="pg-price"><div class="pg-pv">₹12k–18k</div><div class="pg-pn">per cohort</div></div>
       </div>
-
-      <div class="program-item">
-        <div class="program-num">02</div>
-        <div class="program-body">
-          <span class="program-tag tag-adv">Advanced</span>
-          <div class="program-title">Finverze Advanced</div>
-          <div class="program-desc">For schools where The Cohort created visible change and students want to go deeper. 14 days covering investing basics, CIBIL score, goal-based financial planning, and entrepreneurship mindset. Includes a personal money scorecard per student and a parent-facing impact report for the school.</div>
-          <div class="program-details">
-            <div class="program-detail"><strong>14 days</strong>Duration</div>
-            <div class="program-detail"><strong>Certified CA</strong>Delivered by</div>
-            <div class="program-detail"><strong>Cohort grads</strong>Audience</div>
-            <div class="program-detail"><strong>Impact report</strong>Included</div>
-          </div>
+      <div class="pg rv d3">
+        <div>
+          <span class="pg-tag t-adv">Advanced</span>
+          <div class="pg-t">Finverze Advanced</div>
+          <div class="pg-s">14 days for cohort graduates. Investing, CIBIL, goal planning. Includes a student scorecard and parent impact report.</div>
+          <div class="pg-chips"><span class="chip">14 days</span><span class="chip">Certified CA</span><span class="chip">Impact report</span></div>
         </div>
-        <div class="program-price">
-          <div class="program-price-val">₹25k–40k</div>
-          <div class="program-price-note">per cohort</div>
-        </div>
+        <div class="pg-price"><div class="pg-pv">₹25k–40k</div><div class="pg-pn">per cohort</div></div>
       </div>
     </div>
   </div>
 </section>
 
 <!-- COHORT -->
-<section class="cohort" id="cohort">
-  <div class="section-eyebrow">The Finverze Cohort</div>
-  <h2 class="section-h2">Not a course.<br><em>A structured experience.</em></h2>
-  <p class="section-lead">7 days. Every session builds on the last. Delivered by a certified CA using Finverze's curriculum — built specifically for PUC students.</p>
-
-  <div class="cohort-layout">
-    <div class="reveal">
-      <div class="day-list">
-        <div class="day-item">
-          <div class="day-dot active">1</div>
-          <div class="day-body">
-            <div class="day-title">See Your Money</div>
-            <div class="day-desc">Personal cash flow audit. Students map every rupee in and out — many for the first time. CA leads the session live.</div>
-          </div>
+<section class="sec cohort-bg" id="cohort">
+  <div class="wrap">
+    <div class="lbl rv">The Finverze Cohort</div>
+    <h2 class="h2 rv d1">Seven days.<br><span class="c">Every day builds.</span></h2>
+    <div class="c-layout">
+      <div class="days rv">
+        <div class="day"><div class="day-n a">1</div><div><div class="day-t">See Your Money</div><div class="day-d">Personal cash flow audit. First time most students have ever looked.</div></div></div>
+        <div class="day"><div class="day-n">2</div><div><div class="day-t">Needs, Wants, the Drain</div><div class="day-d">Sort every spend. Learn the 50/30/20 rule for student life.</div></div></div>
+        <div class="day"><div class="day-n">3</div><div><div class="day-t">The Power of Not Spending</div><div class="day-d">Impulse mapping. The no-spend challenge. Hardest day. Most transformative.</div></div></div>
+        <div class="day"><div class="day-n">4</div><div><div class="day-t">Your First Savings Goal</div><div class="day-d">Specific target. Monthly number. Signed commitment.</div></div></div>
+        <div class="day"><div class="day-n">5</div><div><div class="day-t">How Money Grows</div><div class="day-d">Compound interest. Students calculate their own 20-year scenario.</div></div></div>
+        <div class="day"><div class="day-n">6</div><div><div class="day-t">Money Myths Busted</div><div class="day-d">Five myths debunked by the CA with facts.</div></div></div>
+        <div class="day"><div class="day-n a">7</div><div><div class="day-t">Personal Money Blueprint</div><div class="day-d">Signed one-page plan. Certificate. The document they keep forever.</div></div></div>
+      </div>
+      <div class="rv d2">
+        <div class="glass">
+          <div class="gl">Who delivers this</div>
+          <div class="gh">A certified CA. Not a trainer.</div>
+          <div class="gb">A Chartered Accountant who works with finance every day. That difference is felt the moment they walk in.</div>
         </div>
-        <div class="day-item">
-          <div class="day-dot">2</div>
-          <div class="day-body">
-            <div class="day-title">Needs, Wants & The Money Drain</div>
-            <div class="day-desc">Sort every spend. Learn the 50/30/20 rule adapted for student life. Calculate where your money actually goes.</div>
+        <div class="glass">
+          <div class="gl">What your school gets</div>
+          <div class="proof">
+            <div class="pr"><div class="pr-i">✓</div><div class="pr-t">Signed money blueprint — a document students keep</div></div>
+            <div class="pr"><div class="pr-i">✓</div><div class="pr-t">Completion certificates for parents and annual reports</div></div>
+            <div class="pr"><div class="pr-i">✓</div><div class="pr-t">7-day engagement data — measurable, shareable</div></div>
+            <div class="pr"><div class="pr-i">✓</div><div class="pr-t">Zero extra work for your teachers</div></div>
+            <div class="pr"><div class="pr-i">✓</div><div class="pr-t">Fits in your existing timetable — 60 min × 7 days</div></div>
           </div>
-        </div>
-        <div class="day-item">
-          <div class="day-dot">3</div>
-          <div class="day-body">
-            <div class="day-title">The Power of Not Spending</div>
-            <div class="day-desc">The 24-hour pause rule. Impulse mapping. The no-spend challenge — the hardest day, and the most transformative.</div>
-          </div>
-        </div>
-        <div class="day-item">
-          <div class="day-dot">4</div>
-          <div class="day-body">
-            <div class="day-title">Your First Savings Goal</div>
-            <div class="day-desc">Goal-based saving vs saving "whatever's left." Students set a specific target, calculate the monthly amount, and sign a commitment.</div>
-          </div>
-        </div>
-        <div class="day-item">
-          <div class="day-dot">5</div>
-          <div class="day-body">
-            <div class="day-title">How Money Grows</div>
-            <div class="day-desc">Compound interest with real numbers. Savings account vs mutual fund SIP. Students calculate their own 20-year scenarios.</div>
-          </div>
-        </div>
-        <div class="day-item">
-          <div class="day-dot">6</div>
-          <div class="day-body">
-            <div class="day-title">Money Myths & The Real World</div>
-            <div class="day-desc">Five myths busted by a CA with evidence. Investing, credit cards, savings accounts — all demystified with facts.</div>
-          </div>
-        </div>
-        <div class="day-item">
-          <div class="day-dot active">7</div>
-          <div class="day-body">
-            <div class="day-title">Your Personal Money Blueprint</div>
-            <div class="day-desc">Students build a one-page signed financial plan. Certificate ceremony. The document they take home and keep.</div>
-          </div>
+          <div style="margin-top:24px"><a href="#contact" class="btn btn-p" style="height:42px;padding:0 22px;font-size:13px">Bring this to your school →</a></div>
         </div>
       </div>
-    </div>
-
-    <div class="reveal">
-      <div class="expert-card">
-        <div class="expert-card-label">Who delivers this</div>
-        <div class="expert-card-title">A certified CA or CFA.<br>Not a trainer. A professional.</div>
-        <div class="expert-card-desc">Every Finverze Cohort is delivered by a Chartered Accountant or CFA — a credentialed professional who works with money every day. Your students aren't learning from a motivational speaker. They're learning from someone who does this for a living.</div>
-      </div>
-
-      <div class="expert-card">
-        <div class="expert-card-label">Why this matters to your school</div>
-        <div class="credential-row">
-          <div class="credential-icon"></div>
-          <div class="credential-text">Students leave with a signed personal money blueprint — a document, not just a memory</div>
-        </div>
-        <div class="credential-row">
-          <div class="credential-icon"></div>
-          <div class="credential-text">Completion certificates your school can communicate to parents and in annual reports</div>
-        </div>
-        <div class="credential-row">
-          <div class="credential-icon"></div>
-          <div class="credential-text">Pre and post habit tracking data — measurable student engagement over 7 days</div>
-        </div>
-        <div class="credential-row">
-          <div class="credential-icon"></div>
-          <div class="credential-text">No extra work for teachers — Finverze handles all content, delivery, and materials</div>
-        </div>
-        <div class="credential-row">
-          <div class="credential-icon"></div>
-          <div class="credential-text">Runs within your existing timetable — 60 minutes per day for 7 school days</div>
-        </div>
-      </div>
-
-      <a href="#contact" class="btn btn-gold" style="display:inline-block;margin-top:1rem;padding:0.875rem 2rem;font-size:0.875rem">Bring this to your school →</a>
     </div>
   </div>
 </section>
 
 <!-- OUTCOMES -->
-<section id="outcomes">
-  <div class="section-eyebrow">Student outcomes</div>
-  <h2 class="section-h2">What students<br><em>walk away with.</em></h2>
-  <p class="section-lead">Not motivation that fades. Systems that stick. Every outcome below is built directly into the 7-day curriculum.</p>
-
-  <div class="outcomes-grid reveal">
-    <div class="outcome-item">
-      <div class="outcome-num">01</div>
-      <div class="outcome-title">Spending awareness</div>
-      <div class="outcome-desc">They know exactly where their money goes. For the first time, they have data — not a feeling.</div>
-    </div>
-    <div class="outcome-item">
-      <div class="outcome-num">02</div>
-      <div class="outcome-title">A real savings habit</div>
-      <div class="outcome-desc">Not "I should save more." A specific goal, a monthly number, a commitment they signed.</div>
-    </div>
-    <div class="outcome-item">
-      <div class="outcome-num">03</div>
-      <div class="outcome-title">Compound interest, understood</div>
-      <div class="outcome-desc">They've calculated their own 20-year scenario. Starting at 17 vs 25 is not abstract — it's their number.</div>
-    </div>
-    <div class="outcome-item">
-      <div class="outcome-num">04</div>
-      <div class="outcome-title">Myths debunked</div>
-      <div class="outcome-desc">Investing is not just for the rich. Credit cards are not evil. Savings accounts are not safe. They know why now.</div>
-    </div>
-    <div class="outcome-item">
-      <div class="outcome-num">05</div>
-      <div class="outcome-title">A personal money blueprint</div>
-      <div class="outcome-desc">A signed, one-page financial plan they keep. Income, budget, savings target, first goal, one habit. Real and theirs.</div>
-    </div>
-    <div class="outcome-item">
-      <div class="outcome-num">06</div>
-      <div class="outcome-title">Financial identity</div>
-      <div class="outcome-desc">They leave seeing themselves as someone who is in control of money — not someone who will "figure it out later."</div>
+<section class="sec" id="outcomes">
+  <div class="wrap">
+    <div class="lbl rv lbl-c" style="justify-content:flex-start">Student outcomes</div>
+    <h2 class="h2 rv d1">What they walk away with.</h2>
+    <div class="out-grid">
+      <div class="out rv d1"><div class="out-n">01</div><div class="out-t">Spending awareness</div><div class="out-s">Real data on where their money goes. Not a feeling — actual numbers.</div></div>
+      <div class="out rv d2"><div class="out-n">02</div><div class="out-t">A savings habit</div><div class="out-s">A goal, a monthly number, a commitment they signed in the room.</div></div>
+      <div class="out rv d3"><div class="out-n">03</div><div class="out-t">Compound interest</div><div class="out-s">Their own 20-year scenario. Starting at 17 vs 25 — their number.</div></div>
+      <div class="out rv d1"><div class="out-n">04</div><div class="out-t">Myths removed</div><div class="out-s">Investing. Credit cards. Savings accounts. All clarified with facts.</div></div>
+      <div class="out rv d2"><div class="out-n">05</div><div class="out-t">Money blueprint</div><div class="out-s">Signed one-page plan. Income, budget, goal. Real and theirs.</div></div>
+      <div class="out rv d3"><div class="out-n">06</div><div class="out-t">Financial identity</div><div class="out-s">They see themselves as in control — not figuring it out later.</div></div>
     </div>
   </div>
 </section>
 
-<!-- HOW IT WORKS -->
-<section class="how" id="how">
-  <div class="section-eyebrow">For schools</div>
-  <h2 class="section-h2">Simple to start.<br><em>Powerful to experience.</em></h2>
-  <p class="section-lead">One conversation is all it takes to bring Finverze to your school. We handle everything from there.</p>
-
-  <div class="how-steps reveal">
-    <div class="how-step">
-      <div class="how-step-tag">Step 01</div>
-      <div class="how-step-num">01</div>
-      <div class="how-step-title">One conversation with us</div>
-      <div class="how-step-desc">We listen first. Tell us about your school, your students, and your timeline. We answer every question. No templates, no pressure.</div>
-    </div>
-    <div class="how-step">
-      <div class="how-step-tag">Step 02</div>
-      <div class="how-step-num">02</div>
-      <div class="how-step-title">Free awareness session</div>
-      <div class="how-step-desc">The Finverze founder visits your school. 60 minutes with your PUC batch — free, no conditions. You'll see the student reaction for yourself.</div>
-    </div>
-    <div class="how-step">
-      <div class="how-step-tag">Step 03</div>
-      <div class="how-step-num">03</div>
-      <div class="how-step-title">Book The Cohort</div>
-      <div class="how-step-desc">If you want to go further, we schedule The Cohort. We send you the program agreement, the CA's credentials, and the full 7-day curriculum in advance.</div>
-    </div>
-    <div class="how-step">
-      <div class="how-step-tag">Step 04</div>
-      <div class="how-step-num">04</div>
-      <div class="how-step-title">Students transform</div>
-      <div class="how-step-desc">7 days. 60 minutes per day. No extra work for your teachers. Students leave with certificates, a money blueprint, and habits that last.</div>
-    </div>
-  </div>
-</section>
-
-<!-- WHY FINVERZE -->
-<section id="why">
-  <div class="section-eyebrow">Why Finverze</div>
-  <h2 class="section-h2">Built different.<br><em>By design.</em></h2>
-  <p class="section-lead">Every other financial literacy initiative gives students awareness. Finverze gives them a 7-day lived experience of managing money differently.</p>
-
-  <div class="why-grid reveal">
-    <div class="why-card">
-      <div>
-        <div class="why-num">The difference</div>
-        <div class="why-title">Habit first. Knowledge second.</div>
-        <div class="why-desc" style="color:rgba(245,243,238,0.5)">Students don't just hear about budgeting — they build one with their own money in the room. They don't just learn about compound interest — they calculate their own 20-year scenario. Every session ends with something they do, not something they remember.</div>
-      </div>
-      <div>
-        <div class="why-num">The credibility</div>
-        <div class="why-title">A real CA. Not a youth trainer.</div>
-        <div class="why-desc" style="color:rgba(245,243,238,0.5)">The Cohort is delivered by a Chartered Accountant who works with finance every day. This changes how students listen. It changes how parents respond. It changes what your school can claim in its communications.</div>
-      </div>
-    </div>
-    <div class="why-card">
-      <div class="why-num">Specifically for PUC</div>
-      <div class="why-title">Every example uses student life.</div>
-      <div class="why-desc">Not "imagine you earn ₹1 lakh a month." Every scenario, every number, every activity in the workbook is built around pocket money, canteen spending, coaching fees, and the real financial decisions PUC students actually face.</div>
-    </div>
-    <div class="why-card">
-      <div class="why-num">For your school</div>
-      <div class="why-title">Certificates and data you can show.</div>
-      <div class="why-desc">Every student gets a Finverze Cohort certificate. You get a completion report. This is something your school can communicate to parents, in newsletters, and in management presentations — not just a workshop that happened.</div>
-    </div>
-    <div class="why-card">
-      <div class="why-num">Zero extra work</div>
-      <div class="why-title">Finverze handles everything.</div>
-      <div class="why-desc">Slides, workbooks, activities, CA scheduling, session delivery, certificate printing — all Finverze. You provide a room and 60 minutes of timetable per day for 7 days. That's it.</div>
-    </div>
-    <div class="why-card">
-      <div class="why-num">The right age</div>
-      <div class="why-title">PUC is the last window.</div>
-      <div class="why-desc">After PUC, students take education loans, choose colleges based on fees, start spending independently. The habits built at 17 follow them to 37. Finverze reaches them before the expensive mistakes start — not after.</div>
+<!-- HOW -->
+<section class="sec" style="background:#08080F">
+  <div class="wrap">
+    <div class="lbl rv">For schools</div>
+    <h2 class="h2 rv d1">Simple to start.</h2>
+    <div class="how-grid rv d2">
+      <div class="hw"><div class="hw-tag">Step 01</div><div class="hw-n">01</div><div class="hw-t">One conversation</div><div class="hw-s">Tell us about your school. We listen. No templates.</div></div>
+      <div class="hw"><div class="hw-tag">Step 02</div><div class="hw-n">02</div><div class="hw-t">Free session</div><div class="hw-s">Founder visits. 60 min with your PUC batch — free. See the reaction yourself.</div></div>
+      <div class="hw"><div class="hw-tag">Step 03</div><div class="hw-n">03</div><div class="hw-t">Book the Cohort</div><div class="hw-s">Full curriculum, CA credentials, agreement — all sent to you in advance.</div></div>
+      <div class="hw"><div class="hw-tag">Step 04</div><div class="hw-n">04</div><div class="hw-t">Students transform</div><div class="hw-s">7 days. 60 min each. Certificates. Blueprints. Habits that last.</div></div>
     </div>
   </div>
 </section>
 
 <!-- CONTACT -->
-<section class="contact" id="contact">
-  <div class="section-eyebrow">Get started</div>
-  <h2 class="section-h2">Bring Finverze<br><em>to your school.</em></h2>
-
-  <div class="contact-layout">
-    <div class="contact-info reveal">
-      <p style="font-size:0.95rem;color:rgba(245,243,238,0.5);line-height:1.75;margin-bottom:2.5rem">We reply within 24 hours. The first step is always a conversation — no commitment, no templates. Just tell us about your school and we'll take it from there.</p>
-
-      <div class="contact-detail">
-        <div class="contact-detail-label">Email</div>
-        <div class="contact-detail-val"><a href="mailto:founder@finverze.com">founder@finverze.com</a></div>
-      </div>
-      <div class="contact-detail">
-        <div class="contact-detail-label">Location</div>
-        <div class="contact-detail-val">Bengaluru, Karnataka</div>
-      </div>
-      <div class="contact-detail">
-        <div class="contact-detail-label">Target schools</div>
-        <div class="contact-detail-val">11th & 12th grade · PUC 1 & PUC 2</div>
-      </div>
-      <div class="contact-detail">
-        <div class="contact-detail-label">Response time</div>
-        <div class="contact-detail-val">Within 24 hours</div>
-      </div>
-      <div class="contact-detail">
-        <div class="contact-detail-label">First step</div>
-        <div class="contact-detail-val">Free awareness session — no commitment</div>
-      </div>
-    </div>
-
-    <div class="contact-form reveal">
-      <div class="form-title">Start the conversation</div>
-      <div class="form-sub">Tell us about your school. We'll get back within 24 hours.</div>
-
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">School name</label>
-          <input class="form-input" type="text" placeholder="Your school's name">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Your name</label>
-          <input class="form-input" type="text" placeholder="Principal / coordinator">
+<section class="sec" id="contact">
+  <div class="wrap">
+    <div class="lbl rv">Get started</div>
+    <div class="c-grid">
+      <div class="c-left rv">
+        <div class="c-big">Bring Finverze<br>to your <span class="c">campus.</span></div>
+        <p class="c-note">We reply in 24 hours. The awareness session is always free. No commitment needed to start.</p>
+        <div class="c-rows">
+          <div class="c-row"><span class="c-rl">Email</span><span class="c-rv"><a href="mailto:founder@finverze.com">founder@finverze.com</a></span></div>
+          <div class="c-row"><span class="c-rl">Location</span><span class="c-rv">Bengaluru, Karnataka</span></div>
+          <div class="c-row"><span class="c-rl">We work with</span><span class="c-rv">PUC 1 &amp; 2</span></div>
+          <div class="c-row"><span class="c-rl">Response</span><span class="c-rv">Within 24 hours</span></div>
+          <div class="c-row"><span class="c-rl">First step</span><span class="c-rv">Free, always</span></div>
         </div>
       </div>
-
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">Email</label>
-          <input class="form-input" type="email" placeholder="your@school.edu.in">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Phone</label>
-          <input class="form-input" type="tel" placeholder="+91 ___________">
-        </div>
+      <div class="form rv d2">
+        <div class="ft">Start the conversation</div>
+        <div class="fs">Back to you within 24 hours.</div>
+        <div class="fr"><div class="fg"><label class="fl">School</label><input class="fi" type="text" placeholder="Your school"></div><div class="fg"><label class="fl">Your name</label><input class="fi" type="text" placeholder="Principal / coordinator"></div></div>
+        <div class="fr"><div class="fg"><label class="fl">Email</label><input class="fi" type="email" placeholder="you@school.edu.in"></div><div class="fg"><label class="fl">Phone</label><input class="fi" type="tel" placeholder="+91"></div></div>
+        <div class="fg"><label class="fl">Program</label><select class="fsel"><option value="">Select</option><option>Free awareness session first</option><option>The Finverze Cohort — 7 days</option><option>Finverze Advanced — 14 days</option><option>Not sure yet — let's talk</option></select></div>
+        <div class="fg"><label class="fl">Batch size</label><input class="fi" type="text" placeholder="e.g. 60 students"></div>
+        <button class="fsub">Send message</button>
+        <div class="fn">Awareness session always free with every partnership.</div>
       </div>
-
-      <div class="form-group">
-        <label class="form-label">Which program are you interested in?</label>
-        <select class="form-select">
-          <option value="">Select a program</option>
-          <option>Free awareness session first — let's see how students respond</option>
-          <option>The Finverze Cohort (7-day, ₹12k–18k)</option>
-          <option>Finverze Advanced (14-day, ₹25k–40k)</option>
-          <option>Not sure yet — let's talk</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">Approximate student count (PUC batch)</label>
-        <input class="form-input" type="text" placeholder="e.g. 60 students across 11th and 12th">
-      </div>
-
-      <button class="btn btn-gold" style="width:100%;padding:0.875rem;font-size:0.9rem;margin-top:0.5rem">Send →</button>
-
-      <div class="form-note">✦ Awareness session is always included free with every school partnership.</div>
     </div>
   </div>
 </section>
 
-<!-- FOOTER -->
+<!-- FINAL CTA -->
+<section class="fcta">
+  <div class="fcta-h rv"><span class="c">One conversation.</span><br>That's all it takes.</div>
+  <p class="fcta-s rv d1">Free awareness session. No commitment. Just let your students experience it.</p>
+  <div class="fcta-btns rv d2">
+    <a href="#contact" class="btn btn-p btn-lg">Schedule a session →</a>
+    <a href="mailto:founder@finverze.com" class="btn btn-g btn-lg">Email us directly</a>
+  </div>
+</section>
+
 <footer>
-  <div class="footer-logo">Finverze</div>
-  <ul class="footer-links">
-    <li><a href="#about">About</a></li>
-    <li><a href="#programs">Programs</a></li>
-    <li><a href="#cohort">The Cohort</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
-  <div class="footer-copy">© 2026 Finverze. Financial discipline for PUC students.</div>
+  <div class="fl-logo">Finverze</div>
+  <ul class="fl-links"><li><a href="#problem">Why</a></li><li><a href="#cohorts">What we offer</a></li><li><a href="#cohort">Cohort</a></li><li><a href="#contact">Contact</a></li></ul>
+  <div class="fl-copy">© 2026 Finverze</div>
 </footer>
 
 <script>
-  // Scroll reveal
-  const reveals = document.querySelectorAll('.reveal');
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach((e, i) => {
-      if (e.isIntersecting) {
-        setTimeout(() => e.target.classList.add('visible'), i * 80);
-        io.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.1 });
-  reveals.forEach(el => io.observe(el));
+// Cursor glow
+const glow = document.getElementById('glow');
+document.addEventListener('mousemove', e => {
+  glow.style.left = e.clientX + 'px';
+  glow.style.top = e.clientY + 'px';
+}, { passive: true });
 
-  // Nav shrink on scroll
-  const nav = document.querySelector('nav');
-  window.addEventListener('scroll', () => {
-    nav.style.padding = window.scrollY > 60 ? '0.875rem 3rem' : '1.25rem 3rem';
-  });
+// Scroll reveal
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); io.unobserve(e.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.rv').forEach(el => io.observe(el));
+
+// Nav
+const nav = document.querySelector('nav');
+window.addEventListener('scroll', () => {
+  nav.style.background = window.scrollY > 50 ? 'rgba(6,6,8,0.97)' : 'rgba(6,6,8,0.8)';
+}, { passive: true });
 </script>
 </body>
 </html>
